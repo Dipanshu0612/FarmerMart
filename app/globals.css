@@ -70,3 +70,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .mybutton {
+    @apply !mt-5 !bg-white !text-black !border-gray-100 !border-2 !p-4 hover:!bg-slate-100 hover:!border-white !h-[2.8rem]
+  }
+  .cardbutton {
+    @apply rounded-full shadow-none hover:!bg-slate-50 !bg-white hover:!border-black border
+  }
+}
+
+
+.cardhover:hover{
+  transition: ease-in-out 0.3s;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}

@@ -9,9 +9,9 @@ const Header = () => {
   const pathname = usePathname();
   return (
     <>
-      <div className="flex justify-around items-center w-100 p-5 shadow-md rounded-b-3xl h-[5rem]">
+      <div className="flex justify-around items-center p-5 shadow-md rounded-b-3xl h-[5rem] sticky top-0 w-full z-50 bg-[rgba(255,244,228,1)]">
         <div className="flex cursor-pointer uppercase font-bold">
-          Local Farmer Marketplace
+          FarmerMart
         </div>
         <nav className="flex list-none justify-around items-center space-x-5 h-[inherit]">
           <li className="h-full items-center">

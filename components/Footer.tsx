@@ -5,10 +5,13 @@ const Footer = () => {
   return (
     <>
       <div className="flex justify-around items-center w-100 p-5 shadow-inner mt-5 h-[6rem] border">
-        <div className="flex cursor-pointer">Local Farmer Marketplace</div>
+        <div className="flex cursor-pointer">FarmerMart</div>
         <div>
-          Made with <span className=''>❤️</span> by{ " "}
-          <Link href="https://www.linkedin.com/in/dipanshu-mishra-696a0622a/" className="italic">
+          Made with <span className="">❤️</span> by{" "}
+          <Link
+            href="https://www.linkedin.com/in/dipanshu-mishra-696a0622a/"
+            className="italic"
+          >
             Dipanshu
           </Link>
         </div>
