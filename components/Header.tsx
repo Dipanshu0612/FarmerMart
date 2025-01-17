@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -9,9 +10,17 @@ const Header = () => {
   const pathname = usePathname();
   return (
     <>
-      <div className="flex justify-around items-center p-5 shadow-md rounded-b-3xl h-[5rem] sticky top-0 w-full z-50 bg-[rgba(255,244,228,1)]">
+      <div className="flex justify-around items-center p-5 shadow-md h-[5rem] sticky top-0 w-full header">
         <div className="flex cursor-pointer uppercase font-bold">
-          FarmerMart
+          <Link href="/">
+            <Image
+              src="/Logo.svg"
+              alt="logo"
+              width={300}
+              height={1}
+              className="self-start block right-1 "
+            />
+          </Link>
         </div>
         <nav className="flex list-none justify-around items-center space-x-5 h-[inherit]">
           <li className="h-full items-center">
@@ -19,7 +28,7 @@ const Header = () => {
               href="/"
               className={
                 pathname === "/"
-                  ? "text-gray-400 border-black border-b-2 h-full flex items-center"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
                   : "h-full flex items-center"
               }
             >
@@ -31,7 +40,7 @@ const Header = () => {
               href="/about"
               className={
                 pathname === "/about"
-                  ? "text-gray-400 border-black border-b-2 h-full flex items-center"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
                   : "h-full flex items-center"
               }
             >
@@ -43,7 +52,7 @@ const Header = () => {
               href="/products"
               className={
                 pathname === "/products"
-                  ? "text-gray-400 border-black border-b-2 h-full flex items-center"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
                   : "h-full flex items-center"
               }
             >
@@ -55,7 +64,7 @@ const Header = () => {
               href="/cart"
               className={
                 pathname === "/cart"
-                  ? "text-gray-400 border-black border-b-2 h-full flex items-center"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
                   : "h-full flex items-center"
               }
             >

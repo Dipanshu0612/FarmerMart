@@ -5,10 +5,11 @@ import React from "react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 
-export default function AddToCartButton() {
+export default function AddToCartButton({ Width }: { Width?:string}) {
   const addToCart = () => {
     toast.success("Item added to cart!");
   };
+  const GivenWidth = Width || "";
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function AddToCartButton() {
       </SignedOut>
 
       <SignedIn>
-        <Button className="cardbutton mb-2 mx-2 bg-transparent text-black" onClick={addToCart}>
+        <Button className={`cardbutton mb-2 mx-2 bg-transparent text-black ${GivenWidth}`} onClick={addToCart}>
           Add to Cart
         </Button>
       </SignedIn>

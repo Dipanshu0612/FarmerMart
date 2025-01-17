@@ -3,9 +3,13 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  ClerkProvider,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
 
 export const metadata: Metadata = {
   title: "D's FarmerMart",
@@ -19,7 +23,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="min-h-screen flex flex-col">
+        <head>
+          <link rel="icon" href="/favicon.ico" />
+        </head>
+        <body className={`${ poppins.className} min-h-screen flex flex-col`}>
           <Toaster />
           <Header />
           {children}

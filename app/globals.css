@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: linear-gradient( 174.2deg,  rgba(255,244,228,1) 7.1%, rgba(240,246,238,1) 67.4% );
+  background: linear-gradient(120.3deg, #D5F2FF 31.56%, rgba(255, 255, 255, 0) 94.83%);
+}
+.header{
+  background: linear-gradient(120.3deg, #D5F2FF 31.56%, rgba(255, 255, 255, 0) 94.83%);
+  background-color: rgb(235, 249, 252);
+  overflow: hidden;
+  z-index: 100;
 }
 @layer base {
   :root {
@@ -66,22 +71,24 @@ body {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 @layer components {
   .mybutton {
-    @apply !mt-5 !bg-white !text-black !border-gray-100 !border-2 !p-4 hover:!bg-slate-100 hover:!border-white !h-[2.8rem]
+    @apply !mt-5 !bg-blue-600 !border-gray-100 !border-2 !p-4 hover:!bg-blue-700 hover:!border-white !h-[2.8rem] text-white
   }
   .cardbutton {
-    @apply rounded-full shadow-none hover:!bg-slate-50 !bg-white hover:!border-black border
+    @apply rounded-full shadow-none hover:!bg-blue-500 !bg-blue-300 hover:!border-black !text-white
+  }
+  .footersocial{
+    @apply text-slate-500 hover:text-black transition-all hover:scale-105
   }
 }
 
-
+.cardhover{
+  box-shadow: 10px 0 20px rgba(0, 0, 0, 0.1)!important;
+}
 .cardhover:hover{
   transition: ease-in-out 0.3s;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
 }
