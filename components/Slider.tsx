@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import MuiSlider from "@mui/material/Slider";
+import { useRouter } from "next/navigation";
 
 export default function CustomSlider() {
+  const router = useRouter();
   const [value, setValue] = useState<number[]>([0, 1000]);
   const marks = [
     {
@@ -16,7 +18,11 @@ export default function CustomSlider() {
     },
   ];
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+    const newRange = newValue as number[];
+    setValue(newRange);
+    router.push(
+      `/products/search/min=${newRange[0]}&max=${newRange[1]}`
+    );
   };
   return (
     <>

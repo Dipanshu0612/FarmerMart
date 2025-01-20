@@ -1,12 +1,15 @@
 import Cards from "@/components/Cards";
-import React from "react";
-import SearchField from "@/components/SearchField";
 import MyCheckboxGroup from "@/components/MyCheckboxGroup";
+import SearchField from "@/components/SearchField";
 import CustomSlider from "@/components/Slider";
-import { getProducts } from "@/lib/actions/actions";
+import { getProductsByQuery } from "@/lib/actions/actions";
+import React from "react";
 
-export default async function Products() {
-  const data = await getProducts();
+export default async function SearchQuery({ params }: { params: { query: string } }) {
+  const { query } = params;
+
+  const data = await getProductsByQuery({query});
+
   return (
     <>
       <div className="flex justify-center flex-1 text-center">
@@ -23,10 +26,14 @@ export default async function Products() {
             <CustomSlider />
           </div>
         </div>
-        <div className="w-5/6 flex-grow flex items-center justify-center flex-col space-y-20 p-10 h-full">
-          <div className="flex items-center justify-center gap-9 flex-wrap w-full">
-            <Cards products={data} />
-          </div>
+        <div className="w-5/6 flex-grow flex items-center justify-start flex-col space-y-20 p-10 h-full">
+          {data.length === 0 ? <div className="flex items-center justify-center w-full h-full">
+            <h1 className="font-bold text-4xl">No Results found!</h1>
+          </div> :
+            <div className="flex items-center justify-start gap-9 flex-wrap w-full">
+              <Cards products={data} />
+            </div>
+          }
         </div>
       </div>
     </>

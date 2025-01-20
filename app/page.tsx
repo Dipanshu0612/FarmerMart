@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import "./globals.css";
 import Cards from "@/components/Cards";
-import topProducts from "./utils/Top_Products";
 import Link from "next/link";
+import topProducts from "./utils/Top_Products";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <div className="flex flex-col items-center justify-center flex-1 p-4 my-2 gap-6">

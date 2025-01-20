@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 
@@ -26,11 +23,10 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/favicon.ico" />
         </head>
-        <body className={`${poppins.className} min-h-screen flex flex-col`}>
-          <Toaster position="top-center" closeButton />
-          <Header />
+        <body
+          className={`${poppins.className} min-h-screen flex flex-col items-center justify-center`}
+        >
           {children}
-          <Footer />
         </body>
       </html>
     </ClerkProvider>

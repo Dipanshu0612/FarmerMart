@@ -1,12 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut,  UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 
 const Header = () => {
+  const [domLoaded, setDomLoaded] = useState(false);
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
   const pathname = usePathname();
   return (
     <>
@@ -78,13 +82,24 @@ const Header = () => {
             </Link>
           </li>
 
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          {domLoaded && (
+            <>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
 
-          <SignedOut>
-            <SignInButton mode="modal" />
-          </SignedOut>
+              <SignedOut>
+                <li className="h-full items-center">
+                  <Link
+                    href="/sign-in"
+                    className="h-full flex items-center"
+                  >
+                    Sign In
+                  </Link>
+                </li>
+              </SignedOut>
+            </>
+          )}
         </nav>
       </div>
     </>
