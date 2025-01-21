@@ -1,9 +1,19 @@
 import Cards from "@/components/Cards";
 import React from "react";
-import SearchField from "@/components/SearchField";
-import MyCheckboxGroup from "@/components/MyCheckboxGroup";
-import CustomSlider from "@/components/Slider";
+import {
+  CategoryFilter,
+  CustomSlider,
+  SearchField,
+} from "@/components/Filters";
 import { getProducts } from "@/lib/actions/actions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Products | FarmerMart",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
+
 
 export default async function Products() {
   const data = await getProducts();
@@ -16,7 +26,7 @@ export default async function Products() {
             <h3 className="text-left w-full pl-2 font-medium text-2xl">
               Category
             </h3>
-            <MyCheckboxGroup />
+            <CategoryFilter />
             <h3 className="text-left w-full pl-2 font-medium text-2xl !mt-10">
               Price Range
             </h3>

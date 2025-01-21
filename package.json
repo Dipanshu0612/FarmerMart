@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.469.0",
     "mongoose": "^8.9.5",
     "next": "^15.1.5",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/lodash": "^4.17.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,5 +1,12 @@
 import { SignUp } from "@clerk/nextjs";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Sign up to D's FarmerMart",
+  description: "Sign up to shop products on FarmerMart.",
+};
+
 
 export default function Page() {
   return (

@@ -54,9 +54,9 @@ export default async function Product({ params }: Props) {
             <p className="mt-5 text-lg">
               Availability:{" "}
               {data.availability ? (
-                <span className="text-green-500">In Stock</span>
+                <span className="text-green-500 font-bold">In Stock</span>
               ) : (
-                <span className="text-red-500">Out of Stock</span>
+                <span className="text-red-500 font-bold">Out of Stock</span>
               )}
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -69,7 +69,7 @@ export default async function Product({ params }: Props) {
             </p>
           </div>
 
-          <div className="w-full">
+          <div className="w-full flex flex-col">
             <AddToCartButton
               Width="w-full"
               Disable={data.availability ? false : true}

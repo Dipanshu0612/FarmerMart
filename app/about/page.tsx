@@ -1,7 +1,15 @@
 import { MyCarousel } from "@/components/MyCarousel";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "About D's FarmerMart",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
+
 
 export default function About() {
   return (
