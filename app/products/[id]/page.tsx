@@ -8,6 +8,7 @@ import { getProductByID } from "@/lib/actions/actions";
 import Gallery from "@/components/ProductGallery";
 import AddToWishListButton from "@/components/AddToWishListButton";
 import Head from "next/head";
+import { serializeProduct } from "@/app/utils/helpers";
 
 type Props = {
   params: {
@@ -18,42 +19,43 @@ type Props = {
 export default async function Product({ params }: Props) {
   const { id } = params;
   const data: ProductType = await getProductByID(id);
+  const newData = serializeProduct(data);
   return (
     <>
       <Head>
-        <title>{data.title} - FarmerMart</title>
-        <meta name="description" content={data.description} />
+        <title>{newData.title} - FarmerMart</title>
+        <meta name="description" content={newData.description} />
       </Head>
 
 
       <div className="flex items-center justify-center space-y-10 flex-1">
-        <Gallery productImages={data.media} />
+        <Gallery productImages={newData.media} />
 
         <div className="flex flex-col items-center justify-center flex-1 text-left w-[50%] p-10 space-y-20 tracking-wider">
           <div className="flex flex-col items-start justify-center space-y-5 w-full">
             <h1 className="text-[4rem] font-semibold text-left">
-              {data.title}
+              {newData.title}
             </h1>
-            <p className="mt-5 text-lg">{data.description}</p>
+            <p className="mt-5 text-lg">{newData.description}</p>
             <div className="flex items-center gap-3">
-              {data.rating}
+              {newData.rating}
               <Rating
                 name="read-only"
-                value={data.rating}
+                value={newData.rating}
                 precision={0.5}
                 readOnly
                 className="text-[1.5rem]"
               />
               <span className="text-gray-500">
-                {Math.ceil(data.original_price / 10)} Reviews
+                {Math.ceil(newData.original_price / 10)} Reviews
               </span>
             </div>
-            <p className="mt-5 text-lg">Weight: {data.weight}kg</p>
-            <p className="mt-5 text-lg">Sold By: {data.sold_by}</p>
-            <p className="mt-5 text-lg">Location: {data.location}</p>
+            <p className="mt-5 text-lg">Weight: {newData.weight}kg</p>
+            <p className="mt-5 text-lg">Sold By: {newData.sold_by}</p>
+            <p className="mt-5 text-lg">Location: {newData.location}</p>
             <p className="mt-5 text-lg">
               Availability:{" "}
-              {data.availability ? (
+              {newData.availability ? (
                 <span className="text-green-500 font-bold">In Stock</span>
               ) : (
                 <span className="text-red-500 font-bold">Out of Stock</span>
@@ -61,18 +63,19 @@ export default async function Product({ params }: Props) {
             </p>
             <div className="flex items-center justify-center gap-3">
               Quantity:{" "}
-              <QuantityControl Disable={data.availability ? false : true} />
+              <QuantityControl Disable={newData.availability ? false : true} />
             </div>
             <p className="mt-5 text-2xl">
-              Price: <del className="text-lg">Rs. {data.original_price}</del>{" "}
-              <span className="font-semibold">Rs. {data.selling_price}/-</span>
+              Price: <del className="text-lg">Rs. {newData.original_price}</del>{" "}
+              <span className="font-semibold">Rs. {newData.selling_price}/-</span>
             </p>
           </div>
 
           <div className="w-full flex flex-col">
             <AddToCartButton
               Width="w-full"
-              Disable={data.availability ? false : true}
+              Disable={newData.availability ? false : true}
+              Product={newData}
             />
             <AddToWishListButton Width="w-full" />
           </div>

@@ -33,6 +33,7 @@ export function MyCarousel() {
                     alt="Carousel"
                     layout="fill"
                     objectFit="cover"
+                    loading="lazy"
                   />
                 </CardContent>
               </Card>

@@ -1,13 +1,18 @@
 import Cards from "@/components/Cards";
-import {
-  CategoryFilter,
-  CustomSlider,
-  SearchField,
-} from "@/components/Filters";
+import {CategoryFilter,CustomSlider,SearchField,} from "@/components/Filters";
 import { Button } from "@/components/ui/button";
 import { getProductsByQuery } from "@/lib/actions/actions";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+
+export const metadata: Metadata = {
+  title: "Products | FarmerMart",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
+
 
 export default async function SearchQuery({
   params,
@@ -29,6 +34,7 @@ export default async function SearchQuery({
     maxPrice: max ? parseInt(max) : undefined,
     category: category ? category : undefined,
   });
+  console.log(data);
 
   return (
     <>

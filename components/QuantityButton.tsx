@@ -3,7 +3,7 @@
 import { Button } from "./ui/button";
 import React, { useState } from "react";
 
-export default function QuantityControl({ Disable }: { Disable: boolean }) {
+export default function QuantityControl({ Disable }: { Disable?: boolean }) {
   
   const [quantity, setQuantity] = useState(1);
   const increaseQuantity = () => {

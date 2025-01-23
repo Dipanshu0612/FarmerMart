@@ -3,9 +3,14 @@ import Image from "next/image";
 import "./globals.css";
 import Cards from "@/components/Cards";
 import Link from "next/link";
-import topProducts from "./utils/Top_Products";
+import { getProducts } from "@/lib/actions/actions";
+import { serializeProducts } from "./utils/helpers";
 
 export default async function Home() {
+  const products_data = await getProducts();
+  let top_products = products_data.sort((a, b) => b.rating - a.rating).slice(0, 4);
+  top_products = serializeProducts(top_products);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center flex-1 p-4 my-2 gap-6">
@@ -49,7 +54,7 @@ export default async function Home() {
             Top Products Sold
           </h2>
           <div className="flex items-center justify-evenly w-full h-full flex-wrap ">
-            <Cards products={topProducts} />
+            <Cards products={top_products} />
           </div>
           <Button className="mybutton">
             <Link href="/products">Shop More!</Link>

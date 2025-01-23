@@ -1,7 +1,6 @@
 import { connectToDB } from "../mongoDB";
 import Product from "../models/productModel";
 
-
 export const getProductsByQuery = async ({
   query,
   minPrice,
@@ -30,20 +29,21 @@ export const getProductsByQuery = async ({
   if (category) {
     filters.category = { $in: category };
   }
-  const data = await Product.find(filters);
-
+  const data: ProductType[] = await Product.find(filters);
   return data;
 };
 
-
 export const getProducts = async () => {
   await connectToDB();
-  const data = await Product.find({});
-  return data;
+  const data = await Product.find({}).lean();
+  return data as unknown as ProductType[];
 };
 
 export const getProductByID = async (id: string) => {
   await connectToDB();
-  const data = await Product.findById(id);
-  return data;
+  const data = await Product.findById(id).lean();
+  if (!data) {
+    throw new Error(`Product with id ${id} not found`);
+  }
+  return data as unknown as ProductType;
 };

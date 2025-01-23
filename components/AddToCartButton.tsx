@@ -4,9 +4,20 @@ import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import useCart from "@/lib/store/store";
 
-export default function AddToCartButton({ Width, Disable }: { Width?:string, Disable?: boolean }) {
+export default function AddToCartButton({
+  Width,
+  Disable,
+  Product,
+}: {
+  Width?: string;
+  Disable?: boolean;
+  Product: ProductType;
+}) {
+  const cart = useCart();
   const addToCart = () => {
+    cart.addItem({ item: Product, quantity: 1 });
     toast.success("Item added to cart!");
   };
   const GivenWidth = Width || "";

@@ -7,6 +7,7 @@ import {
 } from "@/components/Filters";
 import { getProducts } from "@/lib/actions/actions";
 import { Metadata } from "next";
+import { serializeProducts } from "../utils/helpers";
 
 export const metadata: Metadata = {
   title: "Products | FarmerMart",
@@ -16,7 +17,10 @@ export const metadata: Metadata = {
 
 
 export default async function Products() {
+  
   const data = await getProducts();
+  const newData = serializeProducts(data);
+  
   return (
     <>
       <div className="flex justify-center flex-1 text-center">
@@ -35,7 +39,7 @@ export default async function Products() {
         </div>
         <div className="w-5/6 flex-grow flex items-center justify-center flex-col space-y-20 p-10 h-full">
           <div className="flex items-center justify-center gap-9 flex-wrap w-full">
-            <Cards products={data} />
+            <Cards products={newData} />
           </div>
         </div>
       </div>
