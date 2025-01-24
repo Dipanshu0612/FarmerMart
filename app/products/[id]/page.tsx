@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default async function Product({ params }: Props) {
-  const { id } = params;
+  const { id } = await params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
   return (
