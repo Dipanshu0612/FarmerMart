@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import {useRef} from "react";
-import { CarouselItems } from "@/app/utils/CarouselItems";
+import { useRef } from "react";
+import { CarouselItems } from "@/utils/CarouselItems";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,

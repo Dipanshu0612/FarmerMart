@@ -1,5 +1,5 @@
-import AddToCartButton from "@/components/AddToCartButton";
-import QuantityControl from "@/components/QuantityButton";
+import { AddToCartButton } from "@/components/Cards";
+import { QuantityControl } from "@/components/Cards";
 import { Rating } from "@mui/material";
 // import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
@@ -8,13 +8,13 @@ import { getProductByID } from "@/lib/actions/actions";
 import Gallery from "@/components/ProductGallery";
 import AddToWishListButton from "@/components/AddToWishListButton";
 import Head from "next/head";
-import { serializeProduct } from "@/app/utils/helpers";
+import { serializeProduct } from "@/utils/helpers";
 
 type Props = {
   params: {
     id: string;
-  }
-}
+  };
+};
 
 export default async function Product({ params }: Props) {
   const { id } = params;
@@ -26,7 +26,6 @@ export default async function Product({ params }: Props) {
         <title>{newData.title} - FarmerMart</title>
         <meta name="description" content={newData.description} />
       </Head>
-
 
       <div className="flex items-center justify-center space-y-10 flex-1">
         <Gallery productImages={newData.media} />
@@ -63,11 +62,13 @@ export default async function Product({ params }: Props) {
             </p>
             <div className="flex items-center justify-center gap-3">
               Quantity:{" "}
-              <QuantityControl Disable={newData.availability ? false : true} />
+              <QuantityControl Disable={newData.availability ? false : true} Product={newData} />
             </div>
             <p className="mt-5 text-2xl">
               Price: <del className="text-lg">Rs. {newData.original_price}</del>{" "}
-              <span className="font-semibold">Rs. {newData.selling_price}/-</span>
+              <span className="font-semibold">
+                Rs. {newData.selling_price}/-
+              </span>
             </p>
           </div>
 
@@ -77,7 +78,7 @@ export default async function Product({ params }: Props) {
               Disable={newData.availability ? false : true}
               Product={newData}
             />
-            <AddToWishListButton Width="w-full" />
+            <AddToWishListButton Width="w-full" Product={newData} />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { serializeProducts } from "@/app/utils/helpers";
+import { serializeProducts } from "@/utils/helpers";
 import useCart from "@/lib/store/store";
 import { Rating } from "@mui/material";
 import Image from "next/image";
@@ -46,27 +46,29 @@ export default function CartList() {
               <Image
                 src={product.media[0]}
                 alt="Product"
-                width={250}
-                height={200}
+                width={200}
+                height={0}
                 className="!object-cover !h-[130px] !w-[200px] shadow-lg"
                 loading="lazy"
               />
-              <div className="flex flex-col gap-1 text-left">
-                <h2 className="font-bold">{product.title}</h2>
-                <p className="text-sm">{product.description}</p>
-                <p>Sold By: {product.sold_by}</p>
-                <p>{product.location}</p>
-                <p className="flex items-center gap-1">
-                  <span className="mt-1">{product.rating} </span>
-                  <Rating
-                    name="read-only"
-                    value={product.rating}
-                    precision={0.5}
-                    readOnly
-                    className="text-[1.3rem]"
-                  />
-                </p>
-              </div>
+              <Link href={`/products/${product._id}`}>
+                <div className="flex flex-col gap-1 text-left">
+                  <h2 className="font-bold">{product.title}</h2>
+                  <p className="text-sm">{product.description}</p>
+                  <p>Sold By: {product.sold_by}</p>
+                  <p>{product.location}</p>
+                  <p className="flex items-center gap-1">
+                    <span className="mt-1">{product.rating} </span>
+                    <Rating
+                      name="read-only"
+                      value={product.rating}
+                      precision={0.5}
+                      readOnly
+                      className="text-[1.3rem]"
+                    />
+                  </p>
+                </div>
+              </Link>
             </div>
 
             <div className="flex items-center gap-5 w-[50%] justify-around">
@@ -124,7 +126,10 @@ export default function CartList() {
             <div className="flex items-center justify-between">
               <h2 className="font-semibold">Total</h2>
               <p>
-                Rs. <span className="font-bold">{(total_price + 50).toFixed(2)}</span>
+                Rs.{" "}
+                <span className="font-bold">
+                  {(total_price + 50).toFixed(2)}
+                </span>
                 /-
               </p>
             </div>
@@ -137,7 +142,10 @@ export default function CartList() {
           </p>
           <div className="flex items-center justify-between w-full gap-3">
             <Input type="text" placeholder="Enter promo code..." />
-            <Button className="bg-blue-500 hover:bg-blue-600 w-[50%]" onClick={() => alert("Not functional yet!")}>
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 w-[50%]"
+              onClick={() => alert("Not functional yet!")}
+            >
               Apply Discount
             </Button>
           </div>

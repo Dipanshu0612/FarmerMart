@@ -1,13 +1,34 @@
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
+import { CartItemSkeleton } from "../cart/page";
+import { getProductByID, getWishlist } from "@/lib/actions/actions";
+import { auth } from "@clerk/nextjs/server";
+import { get } from "lodash";
+import WishlistCard from "@/components/WishlistCard";
+import { serializeProducts } from "@/utils/helpers";
+import { Button } from "@/components/ui/button";
 
-export default function Wishlist() {
+export default async function Wishlist() {
+  const { userId }: { userId: string | null } = await auth();
+  if (userId === null) return null;
+  const wishlist: string[] = await getWishlist(userId);
+  const product_data = await Promise.all(
+    wishlist.map(async (item) => await getProductByID(item))
+  );
+  const newData = serializeProducts(product_data);
+
   return (
     <>
       <SignedIn>
-        <div className="flex items-center justify-center flex-1 text-center">
-          Wishlist Page
+        <h2 className="text-3xl font-semibold text-center mt-5">
+          Your Wishlist
+        </h2>
+        <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5 mt-5">
+          <Suspense fallback={<CartItemSkeleton />}>
+            <WishlistCard wishlist={newData} />
+          </Suspense>
         </div>
       </SignedIn>
 

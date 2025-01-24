@@ -10,14 +10,19 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Rating from "@mui/material/Rating";
 import { IoLocationOutline } from "react-icons/io5";
-import HeartButton from "./HeartButton";
+import { HeartButton } from "./AddToWishListButton"; 
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import useCart from "@/lib/store/store";
 import { Skeleton } from "./ui/skeleton";
 
-export default function Cards({ products }: { products: ProductType[] }) {
+export default function Cards({
+  products,
+}: {
+  products: ProductType[];
+  updateSignedInUser?: (updatedUser: UserType) => void;
+}) {
   return (
     <>
       {products.map((product: ProductType) => (
@@ -47,7 +52,9 @@ export default function Cards({ products }: { products: ProductType[] }) {
                   variant="body1"
                   className="!font-bold flex items-center text-[1rem] gap-1"
                 >
-                  <span className="flex items-center justify-center mt-1">{product.rating}</span>
+                  <span className="flex items-center justify-center mt-1">
+                    {product.rating}
+                  </span>
                   <Rating
                     name="read-only"
                     value={product.rating}
@@ -65,7 +72,8 @@ export default function Cards({ products }: { products: ProductType[] }) {
               </Link>
             </div>
             <div className="self-start !mt-0">
-              <HeartButton />
+              <HeartButton Product={product}
+              />
             </div>
           </CardContent>
           <CardActions className="flex items-center justify-between mt-1">

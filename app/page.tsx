@@ -4,7 +4,7 @@ import "./globals.css";
 import Cards, { CardsSkeleton } from "@/components/Cards";
 import Link from "next/link";
 import { getProducts } from "@/lib/actions/actions";
-import { serializeProducts } from "./utils/helpers";
+import { serializeProducts } from "../utils/helpers";
 import { Suspense } from "react";
 
 const ProductList = async () => {

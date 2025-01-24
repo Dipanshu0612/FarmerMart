@@ -1,5 +1,6 @@
 import { connectToDB } from "../mongoDB";
 import Product from "../models/productModel";
+import User from "../models/userModel";
 
 export const getProductsByQuery = async ({
   query,
@@ -47,3 +48,13 @@ export const getProductByID = async (id: string) => {
   }
   return data as unknown as ProductType;
 };
+
+export const getWishlist = async (userID:string) => {
+  await connectToDB();
+  const user = await User.find({ clerkId: userID }).lean();
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user[0].wishlist;
+}
