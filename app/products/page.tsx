@@ -1,5 +1,5 @@
-import Cards from "@/components/Cards";
-import React from "react";
+import Cards, { CardsSkeleton } from "@/components/Cards";
+import React, { Suspense } from "react";
 import {
   CategoryFilter,
   CustomSlider,
@@ -15,12 +15,14 @@ export const metadata: Metadata = {
     "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
 };
 
-
-export default async function Products() {
-  
+async function ProductList() {
   const data = await getProducts();
   const newData = serializeProducts(data);
-  
+
+  return <Cards products={newData} />;
+}
+
+export default async function Products() {
   return (
     <>
       <div className="flex justify-center flex-1 text-center">
@@ -39,7 +41,9 @@ export default async function Products() {
         </div>
         <div className="w-5/6 flex-grow flex items-center justify-center flex-col space-y-20 p-10 h-full">
           <div className="flex items-center justify-center gap-9 flex-wrap w-full">
-            <Cards products={newData} />
+            <Suspense fallback={<CardsSkeleton />}>
+              <ProductList />
+            </Suspense>
           </div>
         </div>
       </div>

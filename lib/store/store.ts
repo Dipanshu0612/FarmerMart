@@ -48,7 +48,6 @@ const useCart = create(
             : cartItem
         );
         set({ cartItems: newCartItems });
-        toast.success("Item quantity increased");
       },
       decreaseQuantity: (idToDecrease: string) => {
         const newCartItems = get().cartItems.map((cartItem) =>
@@ -57,7 +56,6 @@ const useCart = create(
             : cartItem
         );
         set({ cartItems: newCartItems });
-        toast.success("Item quantity decreased");
       },
       clearCart: () => set({ cartItems: [] }),
     }),

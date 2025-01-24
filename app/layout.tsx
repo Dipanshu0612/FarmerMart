@@ -26,7 +26,10 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/favicon.ico" />
         </head>
-        <body className={`${poppins.className} min-h-screen flex flex-col`}>
+        <body
+          className={`${poppins.className} min-h-screen flex flex-col`}
+          suppressHydrationWarning={true}
+        >
           <Toaster position="top-center" closeButton />
           <Header />
           {children}

@@ -1,5 +1,5 @@
 import Cards from "@/components/Cards";
-import {CategoryFilter,CustomSlider,SearchField,} from "@/components/Filters";
+import {CategoryFilter,CustomSlider,SearchField} from "@/components/Filters";
 import { Button } from "@/components/ui/button";
 import { getProductsByQuery } from "@/lib/actions/actions";
 import { Metadata } from "next";

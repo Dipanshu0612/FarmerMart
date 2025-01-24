@@ -81,6 +81,18 @@ const Header = () => {
               />
             </Link>
           </li>
+          <li className="h-full items-center">
+            <Link
+              href="/wishlist"
+              className={
+                pathname === "/wishlist"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
+                  : "h-full flex items-center"
+              }
+            >
+              Wishlist
+            </Link>
+          </li>
 
           {domLoaded && (
             <>
@@ -90,10 +102,7 @@ const Header = () => {
 
               <SignedOut>
                 <li className="h-full items-center">
-                  <Link
-                    href="/sign-in"
-                    className="h-full flex items-center"
-                  >
+                  <Link href="/sign-in" className="h-full flex items-center">
                     Sign In
                   </Link>
                 </li>

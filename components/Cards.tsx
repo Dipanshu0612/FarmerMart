@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
@@ -15,12 +15,12 @@ import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import useCart from "@/lib/store/store";
-
+import { Skeleton } from "./ui/skeleton";
 
 export default function Cards({ products }: { products: ProductType[] }) {
   return (
     <>
-      {products.map((product : ProductType) => (
+      {products.map((product: ProductType) => (
         <Card
           key={product._id}
           className="w-[20rem] !rounded-3xl cursor-pointer cardhover shadow-none !bg-white"
@@ -33,21 +33,21 @@ export default function Cards({ products }: { products: ProductType[] }) {
             className="!h-[210px]"
             loading="lazy"
           />
-          <CardContent className="space-y-2 text-left flex items-center justify-between">
-            <div>
+          <CardContent className="space-y-5 text-left flex items-center justify-between">
+            <div className="">
               <Link href={`/products/${product._id}`} key={product._id}>
                 <Typography gutterBottom variant="h5" component="div">
                   {product.title}
                 </Typography>
                 <Typography variant="body2">{product.description}</Typography>
-                <Typography variant="body1" className="!font-bold">
+                <Typography variant="body1" className="!font-bold !mt-1">
                   Rs.{product.selling_price}/-
                 </Typography>
                 <Typography
                   variant="body1"
-                  className="!font-bold flex items-center text-[1.1rem] gap-1"
+                  className="!font-bold flex items-center text-[1rem] gap-1"
                 >
-                  {product.rating}
+                  <span className="flex items-center justify-center mt-1">{product.rating}</span>
                   <Rating
                     name="read-only"
                     value={product.rating}
@@ -68,9 +68,8 @@ export default function Cards({ products }: { products: ProductType[] }) {
               <HeartButton />
             </div>
           </CardContent>
-          <CardActions className="flex items-center justify-between mt-2 mx-2">
-            <QuantityControl Product_ID={product._id} />
-            <AddToCartButton Product={ product }/>
+          <CardActions className="flex items-center justify-between mt-1">
+            <AddToCartButton Product={product} Quantity={1} />
           </CardActions>
         </Card>
       ))}
@@ -78,21 +77,45 @@ export default function Cards({ products }: { products: ProductType[] }) {
   );
 }
 
-
+export function CardsSkeleton() {
+  return (
+    <>
+      {[...Array(8)].map((_, index) => (
+        <div key={index} className="w-[20rem] space-y-3">
+          <Skeleton className="h-[210px] w-full rounded-xl" />
+          <div className="space-y-3">
+            <Skeleton className="h-10 w-4/5" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-6 w-3/5" />
+            <div className="flex items-center space-x-2">
+              <Skeleton className="h-6 w-12" />
+              <Skeleton className="h-6 w-24" />
+            </div>
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+          <div className="flex justify-between">
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
 
 export function AddToCartButton({
   Width,
   Disable,
   Product,
+  Quantity,
 }: {
   Width?: string;
   Disable?: boolean;
   Product: ProductType;
+  Quantity?: number;
 }) {
   const cart = useCart();
   const addToCart = () => {
-    cart.addItem({ item: Product, quantity: 1 });
-    toast.success("Item added to cart!");
+    cart.addItem({ item: Product, quantity: Quantity || 1});
   };
   const GivenWidth = Width || "";
 
@@ -124,21 +147,33 @@ export function AddToCartButton({
   );
 }
 
-
 export function QuantityControl({
   Disable,
-  Product_ID,
+  Product,
 }: {
   Disable?: boolean;
-  Product_ID:string;
+  Product: ProductType;
 }) {
   const cart = useCart();
-  const product = cart.cartItems.find((item) => item.item._id === Product_ID);
+  const Product_ID = Product._id;
+  const product = cart.cartItems.find((prod) => prod.item._id === Product_ID);
+
   const increaseQuantity = () => {
-    cart.increaseQuantity(Product_ID);
+    if (!product) {
+      cart.addItem({ item: Product, quantity: 2 });
+    } else {
+      cart.increaseQuantity(Product_ID);
+    }
   };
+
   const decreaseQuantity = () => {
-    cart.decreaseQuantity(Product_ID);
+    if (product && product.quantity > 1) {
+      cart.decreaseQuantity(Product_ID);
+    } else if (product) {
+      if (confirm("Are you sure you want to remove this item from the cart?")) {
+        cart.removeItem(Product_ID);
+      }
+    }
   };
 
   return (

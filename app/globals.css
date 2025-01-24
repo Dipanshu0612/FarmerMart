@@ -4,6 +4,7 @@
 
 body {
   background: linear-gradient(120.3deg, #D5F2FF 31.56%, rgba(255, 255, 255, 0) 94.83%);
+  /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
 }
 .header{
   background: linear-gradient(120.3deg, #D5F2FF 31.56%, rgba(255, 255, 255, 0) 94.83%);

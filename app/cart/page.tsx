@@ -1,56 +1,20 @@
-import QuantityControl from "@/components/QuantityButton";
 import { Button } from "@/components/ui/button";
-import { getProducts } from "@/lib/actions/actions";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { Rating } from "@mui/material";
 import { Trash } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton"
+import CartList from "@/components/CartList";
 
 export default async function Cart() {
-  const products_data = await getProducts();
   return (
     <>
       <SignedIn>
-        <div className="flex items-center justify-center flex-1 text-center flex-col">
-          <h2 className="text-3xl font-semibold">Your Cart</h2>
-          <div className="flex items-center justify-around border border-black w-[70%] p-5 bg-white rounded-3xl">
-            <div className="flex items-center gap-3">
-              <Image
-                src={products_data[0].media[0]}
-                alt="Product"
-                width={250}
-                height={200}
-                className="!object-cover !h-[130px] !w-[200px] shadow-lg"
-              />
-              <div className="flex flex-col gap-1 text-left">
-                <h2>{products_data[0].title}</h2>
-                <p>{products_data[0].description}</p>
-                <p>Sold By: {products_data[0].sold_by}</p>
-                <p>{products_data[0].location}</p>
-                <p>
-                  {products_data[0].rating}{" "}
-                  <Rating
-                    name="read-only"
-                    value={products_data[0].rating}
-                    precision={0.5}
-                    readOnly
-                    className="text-[1.3rem]"
-                  />
-                </p>
-              </div>
-            </div>
-            <div>
-              <QuantityControl />
-            </div>
-            <div>
-              <p>Rs. { products_data[0].selling_price.toFixed(2)}</p>
-            </div>
-            <div>
-              <Button className="bg-red-500 hover:bg-red-600"><Trash /></Button>
-            </div>
-          </div>
+        <h2 className="text-3xl font-semibold text-center mt-5">Your Cart</h2>
+        <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5">
+          <Suspense fallback={<CartItemSkeleton />}>
+            <CartList />
+          </Suspense>
         </div>
       </SignedIn>
 
@@ -76,3 +40,34 @@ export default async function Cart() {
     </>
   );
 }
+
+export function CartItemSkeleton() {
+  return (
+    <div className="flex items-center justify-around border border-black w-[70%] p-5 bg-white rounded-3xl">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-[130px] w-[200px] rounded-lg" />
+        <div className="flex flex-col gap-2 text-left">
+          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-4 w-64" />
+          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-4 w-32" />
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-6 w-24" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <Skeleton className="h-10 w-24" />
+      </div>
+      <div>
+        <Skeleton className="h-6 w-20" />
+      </div>
+      <div>
+        <Button variant="outline" size="icon">
+          <Trash className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  )
+} 
