@@ -5,10 +5,8 @@ import React, { Suspense } from "react";
 import { CartItemSkeleton } from "../cart/page";
 import { getProductByID, getWishlist } from "@/lib/actions/actions";
 import { auth } from "@clerk/nextjs/server";
-import { get } from "lodash";
 import WishlistCard from "@/components/WishlistCard";
 import { serializeProducts } from "@/utils/helpers";
-import { Button } from "@/components/ui/button";
 
 export default async function Wishlist() {
   const { userId }: { userId: string | null } = await auth();
