@@ -10,13 +10,11 @@ import AddToWishListButton from "@/components/AddToWishListButton";
 import Head from "next/head";
 import { serializeProduct } from "@/utils/helpers";
 
-type Props = {
+export default async function Product({ params }: {
   params: {
     id: string;
-  };
-};
-
-export default async function Product({ params }: Props) {
+  }
+}) {
   const { id } = await params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
