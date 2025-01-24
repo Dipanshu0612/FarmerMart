@@ -15,7 +15,7 @@ export default async function Product({ params }: {
     id: string;
   }
 }) {
-  const { id } = await params;
+  const { id } = params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
   return (
