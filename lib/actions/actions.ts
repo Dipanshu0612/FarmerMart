@@ -20,7 +20,11 @@ export const getProductsByQuery = async ({
   const filters: any = {};
   if (query) {
     const searchText = Array.isArray(query) ? query[0] : query;
-    filters.$text = { $search: searchText };
+    filters.$or = [
+      { name: { $regex: searchText, $options: 'i' } },
+      { description: { $regex: searchText, $options: 'i' } },
+      { category: { $regex: searchText, $options: 'i' } }
+    ];
   }
 
   if (minPrice || maxPrice) {
@@ -30,8 +34,8 @@ export const getProductsByQuery = async ({
   if (category) {
     filters.category = { $in: category };
   }
-  const data: ProductType[] = await Product.find(filters);
-  return data;
+  const data = await Product.find(filters).lean();
+  return data as unknown as ProductType[];
 };
 
 export const getProducts = async () => {
@@ -58,3 +62,14 @@ export const getWishlist = async (userID:string) => {
 
   return user[0].wishlist;
 }
+
+export const getOrders = async (userID: string) => {
+  await connectToDB();
+  const user = await User.find({ clerkId: userID }).lean();
+  if (!user[0]) {
+    throw new Error("User not found");
+  }
+  console.log(user[0]);
+  return user[0].orders;
+};
+

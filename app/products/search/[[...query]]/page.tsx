@@ -2,6 +2,7 @@ import Cards from "@/components/Cards";
 import {CategoryFilter,CustomSlider,SearchField} from "@/components/Filters";
 import { Button } from "@/components/ui/button";
 import { getProductsByQuery } from "@/lib/actions/actions";
+import { serializeProducts } from "@/utils/helpers";
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
@@ -25,8 +26,8 @@ export default async function SearchQuery({
     max?: string;
   };
 }) {
-  const { query } = params;
-  const { category, min, max } = searchParams;
+  const { query } = await params;
+  const { category, min, max } = await searchParams;
 
   const data = await getProductsByQuery({
     query,
@@ -34,7 +35,7 @@ export default async function SearchQuery({
     maxPrice: max ? parseInt(max) : undefined,
     category: category ? category : undefined,
   });
-  console.log(data);
+  const newData = serializeProducts(data);
 
   return (
     <>
@@ -52,8 +53,8 @@ export default async function SearchQuery({
             <CustomSlider />
           </div>
         </div>
-        <div className="w-5/6 flex items-center justify-center flex-col space-y-20 p-10 h-auto">
-          {data.length === 0 ? (
+        <div className="w-5/6 flex items-center justify-start flex-col space-y-20 p-10 h-auto">
+          {newData.length === 0 ? (
             <div className="flex items-center justify-center w-full h-auto flex-col space-y-5">
               <h1 className="font-bold text-4xl">No Results found!</h1>
               <Button className="mybutton">
@@ -62,7 +63,7 @@ export default async function SearchQuery({
             </div>
           ) : (
             <div className="flex items-center justify-start gap-9 flex-wrap w-full">
-              <Cards products={data} />
+              <Cards products={newData} />
             </div>
           )}
         </div>

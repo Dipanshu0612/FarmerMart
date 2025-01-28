@@ -9,11 +9,24 @@ import { Trash } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+  : Promise.reject(new Error("Stripe public key is not defined"));
 
 export default function CartList() {
   const cart = useCart();
   const { cartItems } = cart;
-  const products_data = serializeProducts(cartItems.map((item) => item.item));
+  let products_data = serializeProducts(cartItems.map((item) => item.item));
+  products_data = products_data.map((product) => {
+    return {
+      ...product,
+      quantity: cartItems.find((item) => item.item._id === product._id)
+        ?.quantity,
+    };
+  });
   const total_price = products_data.reduce(
     (acc, product) =>
       acc +
@@ -33,6 +46,27 @@ export default function CartList() {
       </div>
     );
   }
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch("/api/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({products_data}),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Payment failed: ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
+  };
 
   return (
     <>
@@ -155,7 +189,10 @@ export default function CartList() {
           <Button className="w-[50%]">
             <Link href="/products">Back to Shop</Link>
           </Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 w-[50%]">
+          <Button
+            className="bg-blue-500 hover:bg-blue-600 w-[50%]"
+            onClick={() => handleCheckout()}
+          >
             Proceed to Checkout
           </Button>
         </div>

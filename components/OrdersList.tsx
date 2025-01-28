@@ -7,44 +7,17 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { toast } from "sonner";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function WishlistCard({
-  wishlist,
+export default function OrderList({
+  orders,
 }: {
-  wishlist: ProductType[];
+  orders: ProductType[];
 }) {
-  const router = useRouter();
 
-  const removeFromWishlist = async (product_id: string) => {
-    try {
-      const response = await fetch(
-        `/api/users/wishlist?productId=${product_id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const result = await response.json();
-        toast.error(result.message);
-        return;
-      }
-      router.refresh();
-      toast.success("Item removed from wishlist");
-    } catch (error) {
-      toast.error("Failed to remove item from wishlist");
-      console.error(error);
-    }
-  };
-
-  if (wishlist.length === 0) {
+  if (orders.length === 0) {
     return (
-      <div className="flex items-center justify-center flex-col space-y-5">
-        <p className="text-3xl">No items in your wishlist!</p>
+      <div className="flex items-center justify-center flex-col space-y-5 flex-1">
+        <p className="text-3xl">No Orders to show!</p>
         <Button className="mybutton">
           <Link href="/products">Shop Now!</Link>
         </Button>
@@ -54,7 +27,7 @@ export default function WishlistCard({
 
   return (
     <>
-      {wishlist.map((product) => (
+      {orders.map((product) => (
         <div
           className="flex items-center justify-evenly w-[60%] p-5 bg-white rounded-3xl"
           key={product._id}
@@ -90,9 +63,9 @@ export default function WishlistCard({
           <div>
             <Button
               className="bg-red-500 hover:bg-red-600"
-              onClick={() => removeFromWishlist(product._id)}
+              onClick={() => toast.warning("Feature not implemented!")}
             >
-              <Trash /> Remove From Wishlist
+              <Trash /> Provide a Review
             </Button>
           </div>
         </div>

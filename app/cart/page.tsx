@@ -43,7 +43,7 @@ export default async function Cart() {
 
 export function CartItemSkeleton() {
   return (
-    <div className="flex items-center justify-around border border-black w-[70%] p-5 bg-white rounded-3xl">
+    <div className="flex items-center justify-around w-[70%] p-5 bg-white rounded-3xl">
       <div className="flex items-center gap-3">
         <Skeleton className="h-[130px] w-[200px] rounded-lg" />
         <div className="flex flex-col gap-2 text-left">

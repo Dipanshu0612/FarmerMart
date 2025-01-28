@@ -36,8 +36,13 @@ export const SearchField = ({ initialQuery = "" }) => {
         value={searchQuery}
         autoComplete="off"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-        setSearchQuery(e.target.value)
+          setSearchQuery(e.target.value)
         }
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            updateSearch(searchQuery);
+          }
+        }}
       />
       <button
         className="bg-transparent absolute top-[0.04rem] right-[0.10rem] text-gray-500 overflow-hidden z-10 p-[0.4rem] rounded-full bg-white"

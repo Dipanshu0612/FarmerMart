@@ -7,8 +7,6 @@ export const metadata: Metadata = {
   description:
     "Sign in to shop products on FarmerMart.",
 };
-
-
 export default function Page() {
   return (
     <>
@@ -17,7 +15,9 @@ export default function Page() {
           <Image src="/home.svg" alt="Home" width={800} height={500} />
         </div>
         <div className="flex items-center justify-center w-[50%] h-full">
-          <SignIn signUpUrl="http://localhost:3000/sign-up" />
+          <SignIn
+            signUpUrl="http://localhost:3000/sign-up"
+          />
         </div>
       </div>
     </>

@@ -81,7 +81,7 @@ export const GET = async (req: NextRequest) => {
     const product = user.wishlist.includes(productId);
 
     if (product) {
-      user.wishlist = user.wishlist.filter((id:string) => id !== productId);
+      user.wishlist = user.wishlist.filter((id: string) => id !== productId) as string[];
     }
 
     await user.save();

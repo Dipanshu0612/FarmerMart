@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,13 +16,37 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import useCart from "@/lib/store/store";
 import { Skeleton } from "./ui/skeleton";
+import { useAuth } from "@clerk/nextjs";
+// import { serializeProducts } from "@/utils/helpers";
 
 export default function Cards({
   products,
 }: {
   products: ProductType[];
   updateSignedInUser?: (updatedUser: UserType) => void;
-}) {
+  }) {
+  const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    const createUser = async () => {
+      try {
+        const response = await fetch("/api/users", {
+          method: "GET",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to create user");
+        }
+      } catch (error) {
+        console.error("Error creating user:", error);
+      }
+    };
+
+    if (isSignedIn) {
+      createUser();
+    }
+  }, [isSignedIn]);
+
   return (
     <>
       {products.map((product: ProductType) => (
@@ -72,8 +96,7 @@ export default function Cards({
               </Link>
             </div>
             <div className="self-start !mt-0">
-              <HeartButton Product={product}
-              />
+              <HeartButton Product={product} />
             </div>
           </CardContent>
           <CardActions className="flex items-center justify-between mt-1">

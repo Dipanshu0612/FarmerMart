@@ -73,12 +73,24 @@ const Header = () => {
               }
             >
               <Image
-                src="./cart.svg"
+                src="/cart.svg"
                 alt="cart"
                 width={25}
                 height={20}
                 className="cursor-pointer"
               />
+            </Link>
+          </li>
+          <li className="h-full items-center">
+            <Link
+              href="/orders"
+              className={
+                pathname === "/orders"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
+                  : "h-full flex items-center"
+              }
+            >
+              Orders
             </Link>
           </li>
           <li className="h-full items-center">
