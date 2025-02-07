@@ -4,6 +4,7 @@ import {
   CategoryFilter,
   CustomSlider,
   SearchField,
+  SearchFieldForLocation,
 } from "@/components/Filters";
 import { getProducts } from "@/lib/actions/actions";
 import { Metadata } from "next";
@@ -37,6 +38,9 @@ export default async function Products() {
               Price Range
             </h3>
             <CustomSlider />
+            <div className="!my-10 w-full">
+            <SearchFieldForLocation />
+            </div>
           </div>
         </div>
         <div className="w-5/6 flex-grow flex items-center justify-center flex-col space-y-20 p-10 h-full">

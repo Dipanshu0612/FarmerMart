@@ -150,3 +150,49 @@ export const CustomSlider = ({ initialMin = 0, initialMax = 10000 }) => {
     />
   );
 };
+
+export const SearchFieldForLocation = ({ initialQuery = "" }) => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateSearch = useCallback(
+    debounce((query: string) => {
+      const searchParams = new URLSearchParams();
+
+      if (query) {
+        router.push(`/products/search/${query}?${searchParams.toString()}`);
+      } else {
+        router.push(`/products/search?${searchParams.toString()}`);
+      }
+    }, 500),
+    []
+  );
+
+  return (
+    <div className="w-full relative">
+      <Input
+        type="text"
+        placeholder="Search location..."
+        id="search"
+        className="bg-white rounded-full w-full overflow-hidden"
+        value={searchQuery}
+        autoComplete="off"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setSearchQuery(e.target.value)
+        }
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            updateSearch(searchQuery);
+          }
+        }}
+      />
+      <button
+        className="bg-transparent absolute top-[0.04rem] right-[0.10rem] text-gray-500 overflow-hidden z-10 p-[0.4rem] rounded-full bg-white"
+        onClick={() => updateSearch(searchQuery)}
+      >
+        <SearchIcon size={20} className="z-10" />
+      </button>
+    </div>
+  );
+};

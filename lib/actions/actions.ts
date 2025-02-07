@@ -23,7 +23,8 @@ export const getProductsByQuery = async ({
     filters.$or = [
       { name: { $regex: searchText, $options: 'i' } },
       { description: { $regex: searchText, $options: 'i' } },
-      { category: { $regex: searchText, $options: 'i' } }
+      { category: { $regex: searchText, $options: 'i' } },
+      { location: { $regex: searchText, $options: 'i' } }
     ];
   }
 
@@ -69,7 +70,6 @@ export const getOrders = async (userID: string) => {
   if (!user[0]) {
     throw new Error("User not found");
   }
-  console.log(user[0]);
   return user[0].orders;
 };
 
