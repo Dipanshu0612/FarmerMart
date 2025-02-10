@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
+import Providers from "@/components/ProgressBar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,10 +31,12 @@ export default function RootLayout({
           className={`${poppins.className} min-h-screen flex flex-col`}
           suppressHydrationWarning={true}
         >
+          <Providers>
+            <Header />
+            {children}
+            <Footer />
+          </Providers>
           <Toaster position="top-center" closeButton />
-          <Header />
-          {children}
-          <Footer />
         </body>
       </html>
     </ClerkProvider>
