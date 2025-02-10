@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Rating from "@mui/material/Rating";
 import { IoLocationOutline } from "react-icons/io5";
-import { HeartButton } from "./AddToWishListButton"; 
+import { HeartButton } from "./AddToWishListButton";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
@@ -24,7 +24,7 @@ export default function Cards({
 }: {
   products: ProductType[];
   updateSignedInUser?: (updatedUser: UserType) => void;
-  }) {
+}) {
   const { isSignedIn } = useAuth();
 
   useEffect(() => {
@@ -100,7 +100,11 @@ export default function Cards({
             </div>
           </CardContent>
           <CardActions className="flex items-center justify-between mt-1">
-            <AddToCartButton Product={product} Quantity={1} />
+            <AddToCartButton
+              Product={product}
+              Quantity={1}
+              Disable={!product.availability}
+            />
           </CardActions>
         </Card>
       ))}
@@ -146,7 +150,7 @@ export function AddToCartButton({
 }) {
   const cart = useCart();
   const addToCart = () => {
-    cart.addItem({ item: Product, quantity: Quantity || 1});
+    cart.addItem({ item: Product, quantity: Quantity || 1 });
   };
   const GivenWidth = Width || "";
 
