@@ -18,3 +18,13 @@ export const serializeProducts = (products: ProductType[]) => {
     };
   });
 };
+
+export const serializeOrders = (products: OrderItems[]) => {
+  return products.map((product) => {
+    return {
+      ...product,
+      _id: product._id.toString(),
+      ordered_at: new Date(product.ordered_at).toISOString(),
+    };
+  });
+};

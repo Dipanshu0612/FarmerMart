@@ -1,7 +1,7 @@
 "use client";
 
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
@@ -19,14 +19,14 @@ export default function AddToWishListButton({
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
     const data = await fetch("/api/users/wishlist", {
       method: "POST",
       body: JSON.stringify({ productId: Product._id, user }),
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
     if (!data.ok) {
       const result = await data.json();
       toast.error(result.message);
@@ -60,6 +60,32 @@ export default function AddToWishListButton({
 }
 
 export function HeartButton({ Product }: { Product: ProductType }) {
+  const [liked, setLiked] = useState(false);
+
+useEffect(() => {
+  const checkWishlistStatus = async () => {
+    try {
+      const data = await fetch(
+        `/api/users/wishlist?productId=${Product._id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data.ok) {
+        const result = await data.json();
+        setLiked(result.message);
+      }
+    } catch (error) {
+      console.error("Error checking wishlist status:", error);
+    }
+  };
+
+  checkWishlistStatus();
+}, [Product._id]);
 
   const addToWishlist = async () => {
     const user = await fetch("/api/users", {
@@ -75,7 +101,7 @@ export function HeartButton({ Product }: { Product: ProductType }) {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
     if (!data.ok) {
       const result = await data.json();
       toast.error(result.message);
@@ -95,7 +121,7 @@ export function HeartButton({ Product }: { Product: ProductType }) {
     });
 
     const data = await fetch(`/api/users/wishlist?productId=${Product._id}`, {
-      method: "GET",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -109,18 +135,23 @@ export function HeartButton({ Product }: { Product: ProductType }) {
     toast.success(result.message);
   };
 
-  const [liked, setLiked] = useState(false);
   return (
     <>
       <button
-        onClick={() => {
-          if (liked) {
-            removeFromWishlist();
-          } else {
-            addToWishlist();
-          }
+        onClick={async () => {
           setLiked(!liked);
+          try {
+            if (liked) {
+              await removeFromWishlist();
+            } else {
+              await addToWishlist();
+            }
+          } catch (error) {
+            setLiked(liked);
+            console.error(error);
+          }
         }}
+        className="transition-colors duration-200"
       >
         <Heart fill={`${liked ? "red" : "white"}`} />
       </button>

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Trash } from "lucide-react";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 import { Skeleton } from "@/components/ui/skeleton"
 import CartList from "@/components/CartList";
 
@@ -12,9 +12,7 @@ export default async function Cart() {
       <SignedIn>
         <h2 className="text-3xl font-semibold text-center mt-5">Your Cart</h2>
         <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5 mt-5">
-          <Suspense fallback={<CartItemSkeleton />}>
             <CartList />
-          </Suspense>
         </div>
       </SignedIn>
 
@@ -43,31 +41,35 @@ export default async function Cart() {
 
 export function CartItemSkeleton() {
   return (
-    <div className="flex items-center justify-around w-[70%] p-5 bg-white rounded-3xl">
-      <div className="flex items-center gap-3">
-        <Skeleton className="h-[130px] w-[200px] rounded-lg" />
-        <div className="flex flex-col gap-2 text-left">
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-64" />
-          <Skeleton className="h-4 w-40" />
-          <Skeleton className="h-4 w-32" />
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-4 w-16" />
-            <Skeleton className="h-6 w-24" />
+    <>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div key={index} className="flex items-center justify-around w-[70%] p-5 bg-white rounded-3xl">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-[130px] w-[200px] rounded-lg" />
+            <div className="flex flex-col gap-2 text-left">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-4 w-64" />
+              <Skeleton className="h-4 w-40" />
+              <Skeleton className="h-4 w-32" />
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-6 w-24" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <Skeleton className="h-10 w-24" />
+          </div>
+          <div>
+            <Skeleton className="h-6 w-20" />
+          </div>
+          <div>
+            <Button variant="outline" size="icon">
+              <Trash className="h-4 w-4" />
+            </Button>
           </div>
         </div>
-      </div>
-      <div>
-        <Skeleton className="h-10 w-24" />
-      </div>
-      <div>
-        <Skeleton className="h-6 w-20" />
-      </div>
-      <div>
-        <Button variant="outline" size="icon">
-          <Trash className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
-  )
-} 
+      ))}
+    </>
+  );
+}

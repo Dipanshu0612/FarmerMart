@@ -5,7 +5,7 @@ import React, { Suspense } from "react";
 import { CartItemSkeleton } from "../cart/page";
 import { auth } from "@clerk/nextjs/server";
 import { getOrders } from "@/lib/actions/actions";
-import { serializeProducts } from "@/utils/helpers";
+import { serializeOrders } from "@/utils/helpers";
 
 export default async function Orders() {
   const { userId }: { userId: string | null } = await auth();
@@ -32,13 +32,15 @@ export default async function Orders() {
       </>
     );
   }
-  const data: ProductType[] = await getOrders(userId as string);
-  const newData = serializeProducts(data);
+
+  const data: OrderItems[] = await getOrders(userId as string);
+  const newData = serializeOrders(data);
+
   return (
     <>
       <SignedIn>
         <h2 className="text-3xl font-semibold text-center mt-5">Your Orders</h2>
-        <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5 mt-5">
+        <div className="flex items-center justify-start flex-1 text-center flex-col space-y-5 mt-5">
           <Suspense fallback={<CartItemSkeleton />}>
             <OrderList orders={newData} />
           </Suspense>

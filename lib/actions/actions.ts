@@ -72,4 +72,3 @@ export const getOrders = async (userID: string) => {
   }
   return user[0].orders;
 };
-

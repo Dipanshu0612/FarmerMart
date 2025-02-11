@@ -56,7 +56,7 @@ export default function WishlistCard({
     <>
       {wishlist.map((product) => (
         <div
-          className="flex items-center justify-evenly w-[60%] p-5 bg-white rounded-3xl"
+          className="flex items-center justify-between w-[50%] p-5 bg-white rounded-3xl"
           key={product._id}
         >
           <div className="flex items-center gap-5 w-[50%]">

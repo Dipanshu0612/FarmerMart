@@ -1,19 +1,13 @@
 "use client";
 
-import { Rating } from "@mui/material";
-import { Trash } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { toast } from "sonner";
 import Link from "next/link";
+import moment from 'moment';
 
-export default function OrderList({
-  orders,
-}: {
-  orders: ProductType[];
-}) {
-
+export default function OrderList({ orders }: { orders: OrderItems[] }) {
   if (orders.length === 0) {
     return (
       <div className="flex items-center justify-center flex-col space-y-5 flex-1">
@@ -29,7 +23,7 @@ export default function OrderList({
     <>
       {orders.map((product) => (
         <div
-          className="flex items-center justify-evenly w-[60%] p-5 bg-white rounded-3xl"
+          className="flex items-center justify-between w-[60%] p-5 bg-white rounded-3xl"
           key={product._id}
         >
           <div className="flex items-center gap-5 w-[50%]">
@@ -47,25 +41,21 @@ export default function OrderList({
                 <p className="text-sm">{product.description}</p>
                 <p>Sold By: {product.sold_by}</p>
                 <p>{product.location}</p>
-                <p className="flex items-center gap-1">
-                  <span className="mt-1">{product.rating} </span>
-                  <Rating
-                    name="read-only"
-                    value={product.rating}
-                    precision={0.5}
-                    readOnly
-                    className="text-[1.3rem]"
-                  />
-                </p>
               </div>
             </Link>
           </div>
+          <div className="flex flex-col text-left">
+            <p>Quantity: {product.quantity}</p>
+            <p>Amount: Rs. {(product.selling_price * product.quantity).toFixed(2)}</p>
+            <p>Bought On: {moment(product.ordered_at).format('Do MMMM, YYYY')}</p>
+          </div>
           <div>
             <Button
-              className="bg-red-500 hover:bg-red-600"
+              className="mybutton !m-0"
               onClick={() => toast.warning("Feature not implemented!")}
             >
-              <Trash /> Provide a Review
+              {" "}
+              Provide a Review
             </Button>
           </div>
         </div>

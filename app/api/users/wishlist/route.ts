@@ -52,7 +52,7 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const GET = async (req: NextRequest) => {
+export const DELETE = async (req: NextRequest) => {
   try {
     const { userId } = getAuth(req);
 
@@ -95,3 +95,41 @@ export const GET = async (req: NextRequest) => {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+export const GET = async (req: NextRequest) => {
+  try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    await connectToDB();
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      return NextResponse.json({ message: "User Not Found!" }, { status: 404 });
+    }
+
+    const url = new URL(req.url);
+    const productId = url.searchParams.get("productId");
+
+    if (!productId) {
+      return NextResponse.json(
+        { message: "Product ID is required!" },
+        { status: 400 }
+      );
+    }
+
+    const product = user.wishlist.includes(productId);
+
+    return NextResponse.json(
+      { message: product },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};

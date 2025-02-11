@@ -14,12 +14,14 @@ type ProductType = {
   tags: [string];
   createdAt: string;
   updatedAt: string;
+  quantity?: number;
 };
 
 type UserType = {
   clerkId: string;
   wishlist: [string];
   cart: [OrderItemType];
+  orders: [OrderItemType];
   createdAt: string;
   updatedAt: string;
 };
@@ -29,4 +31,16 @@ type OrderItemType = {
   size: string;
   quantity: number;
   _id: string;
+};
+
+type OrderItems = {
+  _id: string;
+  title: string;
+  description: string;
+  media: [string];
+  sold_by: string;
+  location: string;
+  selling_price: number;
+  quantity: number;
+  ordered_at: string;
 };
