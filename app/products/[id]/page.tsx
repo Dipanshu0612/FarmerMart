@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AddToCartButton } from "@/components/Cards";
 import { QuantityControl } from "@/components/Cards";
 import { Rating } from "@mui/material";
