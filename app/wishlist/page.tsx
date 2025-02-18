@@ -41,7 +41,7 @@ export default async function Wishlist() {
         <h2 className="text-3xl font-semibold text-center mt-5">
           Your Wishlist
         </h2>
-        <div className="flex items-center justify-start flex-1 text-center flex-col space-y-5 mt-5">
+        <div className="flex items-center justify-start flex-1 text-center flex-col space-y-5 my-5">
           <Suspense fallback={<CartItemSkeleton />}>
             <WishlistCard wishlist={newData} />
           </Suspense>

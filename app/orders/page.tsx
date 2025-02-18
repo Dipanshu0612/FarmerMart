@@ -40,7 +40,7 @@ export default async function Orders() {
     <>
       <SignedIn>
         <h2 className="text-3xl font-semibold text-center mt-5">Your Orders</h2>
-        <div className="flex items-center justify-start flex-1 text-center flex-col space-y-5 mt-5">
+        <div className="flex items-center justify-start flex-1 text-center flex-col space-y-5 my-5">
           <Suspense fallback={<CartItemSkeleton />}>
             <OrderList orders={newData} />
           </Suspense>

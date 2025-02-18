@@ -11,7 +11,7 @@ export default async function Cart() {
     <>
       <SignedIn>
         <h2 className="text-3xl font-semibold text-center mt-5">Your Cart</h2>
-        <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5 mt-5">
+        <div className="flex items-center justify-center flex-1 text-center flex-col space-y-5 my-5">
             <CartList />
         </div>
       </SignedIn>
