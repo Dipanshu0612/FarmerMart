@@ -32,8 +32,8 @@ export function MyCarousel() {
                     src={item}
                     alt="Carousel"
                     layout="fill"
-                    objectFit="cover"
                     loading="lazy"
+                    className="object-cover"
                   />
                 </CardContent>
               </Card>

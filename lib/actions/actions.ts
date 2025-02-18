@@ -72,3 +72,16 @@ export const getOrders = async (userID: string) => {
   }
   return user[0].orders;
 };
+
+export const getReviews = async (id: string) => {
+  await connectToDB();
+  const data = await Product.findById(id).lean();
+  if (!data) {
+    throw new Error(`Product with id ${id} not found`);
+  }
+  if (!Array.isArray(data) && data.reviews) {
+    const reviews = data.reviews;
+    return reviews as unknown as ProductReviews[];
+  }
+  throw new Error(`Product with id ${id} does not have reviews`);
+}

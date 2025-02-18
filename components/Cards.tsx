@@ -77,7 +77,7 @@ export default function Cards({
                   className="!font-bold flex items-center text-[1rem] gap-1"
                 >
                   <span className="flex items-center justify-center mt-1">
-                    {product.rating}
+                    {(product.rating).toFixed(1)}
                   </span>
                   <Rating
                     name="read-only"

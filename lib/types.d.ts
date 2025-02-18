@@ -15,6 +15,7 @@ type ProductType = {
   createdAt: string;
   updatedAt: string;
   quantity?: number;
+  reviews?:[ProductReview]
 };
 
 type UserType = {
@@ -32,6 +33,17 @@ type OrderItemType = {
   quantity: number;
   _id: string;
 };
+type ProductReview = {
+  title: string;
+  review: string;
+  rating: number;
+  ordered_at: string;
+};
+type ProductReviews = {
+  data: ProductReview,
+  user: string;
+  user_email: string;
+}
 
 type OrderItems = {
   _id: string;

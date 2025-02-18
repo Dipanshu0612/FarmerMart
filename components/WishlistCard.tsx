@@ -21,7 +21,7 @@ export default function WishlistCard({
       const response = await fetch(
         `/api/users/wishlist?productId=${product_id}`,
         {
-          method: "GET",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
