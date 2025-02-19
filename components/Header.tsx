@@ -3,10 +3,12 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { SignedIn, SignedOut,  UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut,  UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
 const Header = () => {
+  const { user } = useUser();
+  const isSeller = user?.unsafeMetadata.role;
   const [domLoaded, setDomLoaded] = useState(false);
   useEffect(() => {
     setDomLoaded(true);
@@ -105,6 +107,18 @@ const Header = () => {
               Wishlist
             </Link>
           </li>
+          {isSeller ==="seller" ?  <li className="h-full items-center">
+            <Link
+              href="/seller"
+              className={
+                pathname === "/seller"
+                  ? "text-gray-400 border-blue-600 border-b-[3px] h-full flex items-center"
+                  : "h-full flex items-center"
+              }
+            >
+              Seller Dashboard
+            </Link>
+          </li> : ""}
 
           {domLoaded && (
             <>

@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <div className="flex items-center justify-center w-full h-full">
-        <div className="flex items-center justify-center w-[50%] h-full">
-          <Image src="/home.svg" alt="Home" width={800} height={500} />
+      <div className="flex items-center justify-center w-full flex-1">
+        <div className="flex items-center justify-center w-[50%]">
+          <Image src="/home.svg" alt="Home" width={700} height={500} />
         </div>
-        <div className="flex items-center justify-center w-[50%] h-full">
+        <div className="flex items-center justify-center w-[50%]">
           <SignIn
             signUpUrl="http://localhost:3000/sign-up"
           />

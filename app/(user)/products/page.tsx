@@ -8,7 +8,7 @@ import {
 } from "@/components/Filters";
 import { getProducts } from "@/lib/actions/actions";
 import { Metadata } from "next";
-import { serializeProducts } from "../../utils/helpers";
+import { serializeProducts } from "@/utils/helpers";
 
 export const metadata: Metadata = {
   title: "Products | FarmerMart",

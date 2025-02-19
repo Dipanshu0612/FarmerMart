@@ -11,7 +11,7 @@ import { Input } from "./ui/input";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 import { Suspense } from "react";
-import { CartItemSkeleton } from "@/app/cart/page";
+import { CartItemSkeleton } from "@/app/(user)/cart/page";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY

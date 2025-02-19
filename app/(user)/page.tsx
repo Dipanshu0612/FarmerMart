@@ -1,11 +1,19 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import "./globals.css";
+import "../globals.css";
 import Cards, { CardsSkeleton } from "@/components/Cards";
 import Link from "next/link";
 import { getProducts } from "@/lib/actions/actions";
-import { serializeProducts } from "../utils/helpers";
+import { serializeProducts } from "../../utils/helpers";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "FarmerMart - Farm to Table, Naturally",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
+
 
 const ProductList = async () => {
   const products_data = await getProducts();

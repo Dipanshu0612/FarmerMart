@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { Poppins } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -17,10 +18,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-        <div
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning={true}>
+        <body
           className={`${poppins.className} min-h-screen flex flex-col items-center justify-center`}
         >
           {children}
-        </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
