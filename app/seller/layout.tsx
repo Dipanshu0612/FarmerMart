@@ -1,5 +1,4 @@
 import "../globals.css";
-import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
@@ -41,7 +40,6 @@ export default function RootLayout({
             <Footer />
           </Providers>
         </ClerkProvider>
-        <Toaster position="top-center" closeButton />
       </body>
     </html>
   );

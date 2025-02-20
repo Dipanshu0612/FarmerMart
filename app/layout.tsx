@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,7 +19,8 @@ export default function RootLayout({
         className={`${poppins.className} min-h-screen flex flex-col`}
         suppressHydrationWarning={true}
       >
-            {children}
+        {children}
+        <Toaster position="top-center" closeButton/>
       </body>
     </html>
   );

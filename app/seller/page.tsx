@@ -9,9 +9,13 @@ import {
 } from "@/components/ui/card";
 import { currentUser} from "@clerk/nextjs/server";
 import { FaRupeeSign } from "react-icons/fa";
+import { redirect } from "next/navigation";
 
 const SellerDashboard = async () => {
-  const user = await currentUser();;
+  const user = await currentUser();
+  if (user?.unsafeMetadata.role !== "seller") {
+    redirect("/");
+  }
   // const revenueData = [
   //   { name: "Jan", revenue: 4000, orders: 240 },
   //   { name: "Feb", revenue: 3000, orders: 198 },

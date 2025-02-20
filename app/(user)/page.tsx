@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const ProductList = async () => {
   const products_data = await getProducts();
   let top_products = products_data
-    .sort((a, b) => b.rating - a.rating)
+    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     .slice(0, 4);
   top_products = serializeProducts(top_products);
   return <Cards products={top_products} />;

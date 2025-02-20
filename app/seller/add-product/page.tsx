@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string()
