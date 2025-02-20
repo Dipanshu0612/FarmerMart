@@ -5,11 +5,18 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import Providers from "@/components/ProgressBar";
 import SellerSidebar from "@/components/SellerSidebar";
+import { Metadata } from "next";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500"],
 });
+
+export const metadata: Metadata = {
+  title: "Seller Dashboard | FarmerMart",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
 
 export default function RootLayout({
   children,

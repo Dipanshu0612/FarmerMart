@@ -1,5 +1,5 @@
 import React from "react";
-import { DollarSign, ShoppingCart, TrendingUp, Users } from "lucide-react";
+import { ShoppingCart, TrendingUp, Users } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -8,14 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { currentUser} from "@clerk/nextjs/server";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Seller Dashboard | FarmerMart",
-  description:
-    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
-};
-
+import { FaRupeeSign } from "react-icons/fa";
 
 const SellerDashboard = async () => {
   const user = await currentUser();;
@@ -78,7 +71,7 @@ const SellerDashboard = async () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="w-4 h-4 text-gray-500" />
+            <FaRupeeSign className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="flex text-2xl font-bold">Rs. 28,000</div>

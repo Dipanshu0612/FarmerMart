@@ -1,6 +1,7 @@
 import { connectToDB } from "../mongoDB";
 import Product from "../models/productModel";
 import User from "../models/userModel";
+import Order from "../models/ordersModel";
 
 export const getProductsByQuery = async ({
   query,
@@ -70,7 +71,13 @@ export const getOrders = async (userID: string) => {
   if (!user[0]) {
     throw new Error("User not found");
   }
-  return user[0].orders;
+  const orderIds = user[0].orders;
+  const orders =  await Promise.all(orderIds.map(async (orderId:string) => {
+    const res = await getOrderById(orderId);
+    return res;
+  }))
+  // console.log({ Orders_server: orders });
+  return orders as unknown as OrderType[];
 };
 
 export const getReviews = async (id: string) => {
@@ -84,4 +91,13 @@ export const getReviews = async (id: string) => {
     return reviews as unknown as ProductReviews[];
   }
   throw new Error(`Product with id ${id} does not have reviews`);
+}
+
+export const getOrderById = async (order_id: string) => {
+  await connectToDB();
+  const order = await Order.findById(order_id).lean();
+  if (!order) {
+    throw new Error("No Order Found with this ID!");
+  }
+  return order as unknown as OrderType;
 }

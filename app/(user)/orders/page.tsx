@@ -6,6 +6,13 @@ import { CartItemSkeleton } from "../cart/page";
 import { auth } from "@clerk/nextjs/server";
 import { getOrders } from "@/lib/actions/actions";
 import { serializeOrders } from "@/utils/helpers";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Orders | FarmerMart",
+  description:
+    "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
+};
 
 export default async function Orders() {
   const { userId }: { userId: string | null } = await auth();
@@ -33,9 +40,9 @@ export default async function Orders() {
     );
   }
 
-  const data: OrderItems[] = await getOrders(userId as string);
+  const data: OrderType[] = await getOrders(userId as string);
+  // console.log({Orders:data})
   const newData = serializeOrders(data);
-
   return (
     <>
       <SignedIn>
@@ -46,7 +53,6 @@ export default async function Orders() {
           </Suspense>
         </div>
       </SignedIn>
-
     </>
   );
 }

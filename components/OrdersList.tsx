@@ -20,11 +20,12 @@ import { toast } from "sonner";
 interface ReviewModalProps {
   open: boolean;
   onClose: () => void;
-  product?: OrderItems;
+  product?: OrderType;
+  index: number;
 }
 
 
-export default function OrderList({ orders }: { orders: OrderItems[] }) {
+export default function OrderList({ orders }: { orders: OrderType[] }) {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -50,7 +51,7 @@ export default function OrderList({ orders }: { orders: OrderItems[] }) {
         >
           <div className="flex items-center gap-5 w-[50%]">
             <Image
-              src={product.media[0]}
+              src={product.products_details[index].media[0]}
               alt="Product"
               width={200}
               height={0}
@@ -59,26 +60,34 @@ export default function OrderList({ orders }: { orders: OrderItems[] }) {
             />
             <Link href={`/products/${product._id}`}>
               <div className="flex flex-col gap-1 text-left">
-                <h2 className="font-bold">{product.title}</h2>
-                <p className="text-sm">{product.description}</p>
-                <p>Sold By: {product.sold_by}</p>
-                <p>{product.location}</p>
+                <h2 className="font-bold">{product.products_details[index].title}</h2>
+                <p className="text-sm">
+                  {product.products_details[index].description}
+                </p>
+                <p>Sold By: {product.seller_name}</p>
+                <p>{product.seller_location}</p>
               </div>
             </Link>
           </div>
           <div className="flex flex-col text-left">
-            <p>Quantity: {product.quantity}</p>
+            <p>Quantity: {product.products_details[index].quantity}</p>
             <p>
               Amount: Rs.{" "}
-              {(product.selling_price * product.quantity).toFixed(2)}
+              {(
+                product.products_details[index].selling_price *
+                product.products_details[index].quantity
+              ).toFixed(2)}
             </p>
             <p>
               Bought On: {moment(product.ordered_at).format("Do MMMM, YYYY")}
             </p>
+            <p>
+              Status: { product.order_status==="Pending" ? "Ordered" : product.order_status }
+            </p>
           </div>
           <div>
             <Button
-              className="mybutton !m-0"
+              className={`mybutton !m-0 ${product.order_status === "Pending" ? "hidden" : ""}`}
               onClick={() => setSelectedProductId(product._id)}
             >
               Write a Review
@@ -87,6 +96,7 @@ export default function OrderList({ orders }: { orders: OrderItems[] }) {
               open={selectedProductId === product._id}
               onClose={() => setSelectedProductId(null)}
               product={product}
+              index={index}
             />
           </div>
         </div>
@@ -100,6 +110,7 @@ export function ReviewModal({
   open,
   onClose,
   product,
+  index
 }: ReviewModalProps) {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
@@ -160,7 +171,7 @@ export function ReviewModal({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            Write a Review {product && `for ${product.title}`}
+            Write a Review {product && `for ${product.products_details[index].title}`}
           </DialogTitle>
         </DialogHeader>
 
