@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { SearchIcon } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
 import MuiSlider from "@mui/material/Slider";
+import { Suspense } from "react";
 
 export const SearchField = ({ initialQuery = "" }) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ export const SearchField = ({ initialQuery = "" }) => {
   );
 };
 
-export const CategoryFilter = () => {
+const CategoryFilterContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -103,7 +104,7 @@ export const CategoryFilter = () => {
   );
 };
 
-export const CustomSlider = ({ initialMin = 0, initialMax = 10000 }) => {
+export const CustomSliderContent = ({ initialMin = 0, initialMax = 10000 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [value, setValue] = useState<number[]>([initialMin, initialMax]);
@@ -194,5 +195,21 @@ export const SearchFieldForLocation = ({ initialQuery = "" }) => {
         <SearchIcon size={20} className="z-10" />
       </button>
     </div>
+  );
+};
+
+export const CategoryFilter = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CategoryFilterContent />
+    </Suspense>
+  );
+};
+
+export const CustomSlider = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CustomSliderContent />
+    </Suspense>
   );
 };
