@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Cards from "@/components/Cards";
 import {CategoryFilter,CustomSlider,SearchField, SearchFieldForLocation} from "@/components/Filters";
 import { Button } from "@/components/ui/button";
@@ -18,14 +19,7 @@ export const metadata: Metadata = {
 export default async function SearchQuery({
   params,
   searchParams,
-}: {
-  params: { query: string };
-  searchParams: {
-    category?: string;
-    min?: string;
-    max?: string;
-  };
-}) {
+}:any) {
   const { query } = await params;
   const { category, min, max } = await searchParams;
 
