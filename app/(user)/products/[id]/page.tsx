@@ -11,11 +11,12 @@ import Head from "next/head";
 import { serializeProduct } from "@/utils/helpers";
 import moment from "moment";
 
-type Props = {
+interface PageProps {
   params: { id: string };
-};
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
-export default async function Product({ params }: Props) {
+export default async function Product({ params }: PageProps) {
   const { id } = params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
