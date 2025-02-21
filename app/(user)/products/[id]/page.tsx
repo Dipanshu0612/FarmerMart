@@ -11,17 +11,17 @@ import Head from "next/head";
 import { serializeProduct } from "@/utils/helpers";
 import moment from "moment";
 
-export default async function Product({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
-  const id = params.id;
+type Props = {
+  params: { id: string };
+};
+
+export default async function Product({ params }: Props) {
+  const { id } = params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
-  const seller_name = newData.sold_by ? await getSellerName(newData.sold_by) : "Unknown Seller";
+  const seller_name = newData.sold_by
+    ? await getSellerName(newData.sold_by)
+    : "Unknown Seller";
   newData.sold_by = seller_name;
   const reviews = await getReviews(id);
   return (
@@ -117,7 +117,9 @@ export default async function Product({
                       </details>
                     </div>
                     <div className="flex items-center justify-center flex-col">
-                      <h3 className="text-3xl">{(item.data.rating).toFixed(1)}</h3>
+                      <h3 className="text-3xl">
+                        {item.data.rating.toFixed(1)}
+                      </h3>
                       <Rating
                         name="read-only"
                         value={item.data.rating}
