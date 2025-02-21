@@ -323,7 +323,7 @@ const SellerOrdersPage = ({ orders }: { orders: OrderType[] }) => {
                                   </div>
                                   <div className="flex justify-between">
                                     <Select
-                                      value={orderType}
+                                      value={order.order_status}
                                       onValueChange={(value) => {
                                         setOrderStatus(value);
                                       }}

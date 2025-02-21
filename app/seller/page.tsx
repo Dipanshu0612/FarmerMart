@@ -9,9 +9,13 @@ import {
 } from "@/components/ui/card";
 import { currentUser} from "@clerk/nextjs/server";
 import { FaRupeeSign } from "react-icons/fa";
+import { getSellerOrders, getSellerProducts } from "@/lib/actions/actions";
+import moment from "moment";
 
 const SellerDashboard = async () => {
   const user = await currentUser();
+  const orders = await getSellerOrders(user?.id || "");
+  const products = await getSellerProducts(user?.id || "");
   // const revenueData = [
   //   { name: "Jan", revenue: 4000, orders: 240 },
   //   { name: "Feb", revenue: 3000, orders: 198 },
@@ -20,52 +24,24 @@ const SellerDashboard = async () => {
   //   { name: "May", revenue: 6000, orders: 410 },
   //   { name: "Jun", revenue: 5500, orders: 350 },
   // ];
-
-  const topProducts = [
-    { id: 1, name: "Wireless Headphones", sales: 145, revenue: 7250 },
-    { id: 2, name: "Smart Watch", sales: 98, revenue: 9800 },
-    { id: 3, name: "Fitness Tracker", sales: 87, revenue: 4350 },
-    { id: 4, name: "Bluetooth Speaker", sales: 76, revenue: 3800 },
-  ];
-
-  const recentOrders = [
-    {
-      id: "#ORD-7539",
-      customer: "Alex Johnson",
-      date: "2025-02-18",
-      status: "Delivered",
-      amount: 129.99,
-    },
-    {
-      id: "#ORD-7538",
-      customer: "Maria Garcia",
-      date: "2025-02-18",
-      status: "Processing",
-      amount: 79.95,
-    },
-    {
-      id: "#ORD-7537",
-      customer: "James Wilson",
-      date: "2025-02-17",
-      status: "Shipped",
-      amount: 249.5,
-    },
-    {
-      id: "#ORD-7536",
-      customer: "Sarah Ahmed",
-      date: "2025-02-17",
-      status: "Delivered",
-      amount: 59.99,
-    },
-  ];
+  const getStatusColor = (status: string) => {
+    const statusMap: { [key: string]: string } = {
+      Pending: "bg-yellow-100 text-yellow-800",
+      Processing: "bg-blue-100 text-blue-800",
+      Shipped: "bg-indigo-100 text-indigo-800",
+      Delivered: "bg-green-100 text-green-800",
+      Cancelled: "bg-red-100 text-red-800",
+      Refunded: "bg-gray-100 text-gray-800",
+    };
+    return statusMap[status] || "bg-gray-100 text-gray-800";
+  };
 
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Welcome, { user?.firstName + " " + user?.lastName}</h1>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">Today: Feb 19, 2025</span>
-        </div>
+        <h1 className="text-2xl font-bold">
+          Welcome, {user?.firstName + " " + user?.lastName}
+        </h1>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
@@ -84,7 +60,7 @@ const SellerDashboard = async () => {
             <ShoppingCart className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">1,778</div>
+            <div className="flex text-2xl font-bold">{orders.length}</div>
           </CardContent>
         </Card>
 
@@ -94,7 +70,7 @@ const SellerDashboard = async () => {
             <Users className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">892</div>
+            <div className="flex text-2xl font-bold">{orders.length}</div>
           </CardContent>
         </Card>
 
@@ -106,7 +82,9 @@ const SellerDashboard = async () => {
             <TrendingUp className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">Rs. 72.40</div>
+            <div className="flex text-2xl font-bold">
+              {orders[0].total_amount}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -135,18 +113,18 @@ const SellerDashboard = async () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {topProducts.map((product) => (
+              {products?.map((product, index) => (
                 <div
-                  key={product.id}
+                  key={index}
                   className="flex items-center justify-between text-left"
                 >
                   <div>
-                    <p className="font-medium">{product.name}</p>
+                    <p className="font-medium">{product.title}</p>
                     <p className="text-sm text-gray-500">
-                      {product.sales} units sold
+                      {product.quantity} units sold
                     </p>
                   </div>
-                  <p className="font-medium">Rs. {product.revenue}</p>
+                  <p className="font-medium">Rs. {product.selling_price}</p>
                 </div>
               ))}
             </div>
@@ -172,25 +150,23 @@ const SellerDashboard = async () => {
                 </tr>
               </thead>
               <tbody>
-                {recentOrders.map((order) => (
-                  <tr key={order.id} className="border-b text-left">
-                    <td className="py-2">{order.id}</td>
-                    <td className="py-2">{order.customer}</td>
-                    <td className="py-2">{order.date}</td>
+                {orders.map((order) => (
+                  <tr key={order._id} className="border-b text-left">
+                    <td className="py-2">{order._id}</td>
+                    <td className="py-2">{order.user_details.user_name}</td>
+                    <td className="py-2">{moment(order.ordered_at).format("Do MMMM, YYYY")}</td>
                     <td className="py-2">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          order.status === "Delivered"
-                            ? "bg-green-100 text-green-800"
-                            : order.status === "Shipped"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-amber-100 text-amber-800"
-                        }`}
+                        className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+                          order.order_status
+                        )}`}
                       >
-                        {order.status}
+                        {order.order_status}
                       </span>
                     </td>
-                    <td className="py-2 text-right">Rs. {order.amount}</td>
+                    <td className="py-2 text-right">
+                      Rs. {order.total_amount}
+                    </td>
                   </tr>
                 ))}
               </tbody>
