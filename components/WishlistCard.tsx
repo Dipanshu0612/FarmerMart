@@ -61,7 +61,7 @@ export default function WishlistCard({
         >
           <div className="flex items-center gap-5 w-[50%]">
             <Image
-              src={product.media[0]}
+              src={product.media ? product.media[0] : '/placeholder-image.png'}
               alt="Product"
               width={200}
               height={0}
@@ -90,7 +90,7 @@ export default function WishlistCard({
           <div>
             <Button
               className="bg-red-500 hover:bg-red-600"
-              onClick={() => removeFromWishlist(product._id)}
+              onClick={() => product._id && removeFromWishlist(product._id)}
             >
               <Trash /> Remove From Wishlist
             </Button>
