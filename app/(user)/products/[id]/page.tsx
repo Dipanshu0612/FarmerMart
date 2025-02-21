@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AddToCartButton } from "@/components/Cards";
 import { QuantityControl } from "@/components/Cards";
 import { Rating } from "@mui/material";
@@ -11,12 +12,12 @@ import Head from "next/head";
 import { serializeProduct } from "@/utils/helpers";
 import moment from "moment";
 
-interface PageProps {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+// interface PageProps {
+//   params: { id: string };
+//   searchParams?: { [key: string]: string | string[] | undefined };
+// }
 
-export default async function Product({ params }: PageProps) {
+export default async function Product({ params }:any) {
   const { id } = params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
