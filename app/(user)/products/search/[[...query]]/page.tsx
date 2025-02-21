@@ -1,5 +1,5 @@
 import Cards from "@/components/Cards";
-import {CategoryFilter,CustomSlider,SearchField} from "@/components/Filters";
+import {CategoryFilter,CustomSlider,SearchField, SearchFieldForLocation} from "@/components/Filters";
 import { Button } from "@/components/ui/button";
 import { getProductsByQuery } from "@/lib/actions/actions";
 import { serializeProducts } from "@/utils/helpers";
@@ -51,6 +51,9 @@ export default async function SearchQuery({
               Price Range
             </h3>
             <CustomSlider />
+            <div className="!my-10 w-full">
+                        <SearchFieldForLocation />
+                        </div>
           </div>
         </div>
         <div className="w-5/6 flex items-center justify-start flex-col space-y-20 p-10 h-auto">

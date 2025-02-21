@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -58,7 +57,7 @@ export default function Cards({
             component="img"
             alt={product.title}
             height="200px"
-            image={product.media[0]}
+            image={product.media ? product.media[0] : ""}
             className="!h-[210px]"
             loading="lazy"
           />
@@ -77,7 +76,7 @@ export default function Cards({
                   className="!font-bold flex items-center text-[1rem] gap-1"
                 >
                   <span className="flex items-center justify-center mt-1">
-                    {(product.rating).toFixed(1)}
+                    {product.rating ? product.rating.toFixed(1) : "N/A"}
                   </span>
                   <Rating
                     name="read-only"
@@ -190,7 +189,7 @@ export function QuantityControl({
   Product: ProductType;
 }) {
   const cart = useCart();
-  const Product_ID = Product._id;
+  const Product_ID = Product._id || "";
   const product = cart.cartItems.find((prod) => prod.item._id === Product_ID);
 
   const increaseQuantity = () => {

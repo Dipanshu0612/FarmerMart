@@ -22,15 +22,15 @@ export const POST = async (req: NextRequest) => {
     const itemsBySeller: { [key: string]: OrderItems[] } = {};
     
     orderData.forEach((item:OrderItems) => {
-      const sellerName = item.sold_by;
-      if (!itemsBySeller[sellerName]) {
-        itemsBySeller[sellerName] = [];
+      const sellerID = item.sold_by;
+      if (!itemsBySeller[sellerID]) {
+        itemsBySeller[sellerID] = [];
       }
-      itemsBySeller[sellerName].push(item);
+      itemsBySeller[sellerID].push(item);
     });
 
     const orderPromises = Object.entries(itemsBySeller).map(
-      ([sellerName, items]) => {
+      ([sellerID, items]) => {
         const totalAmount = items.reduce((sum, item) => {
           return sum + item.selling_price * item.quantity;
         }, 0);
@@ -46,9 +46,9 @@ export const POST = async (req: NextRequest) => {
             quantity: item.quantity,
             media: item.media,
           })),
-          user_details: { userId, user_name:clerkUser?.firstName + " " + clerkUser?.lastName },
+          user_details: { userId, user_name:clerkUser?.firstName + " " + clerkUser?.lastName, user_email:clerkUser?.emailAddresses[0].emailAddress },
           total_amount: totalAmount,
-          seller_name: sellerName,
+          seller_name: sellerID,
           seller_location: sellerLocation,
           ordered_at: orderedAt,
         };

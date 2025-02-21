@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SignedIn, SignedOut,  UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { toast } from "sonner";
 
 const Header = () => {
   const { user } = useUser();
@@ -136,11 +135,6 @@ const Header = () => {
               </SignedOut>
             </>
           )}
-          <li>
-            <button onClick={() => {
-              toast.success("Ji")
-            }}>Hui</button>
-          </li>
         </nav>
       </div>
     </>

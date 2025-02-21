@@ -29,10 +29,11 @@ export default function CartList() {
         ?.quantity,
     };
   });
+  
   const total_price = products_data.reduce(
     (acc, product) =>
       acc +
-      product.selling_price *
+      (product.selling_price || 0) *
         (cartItems.find((item) => item.item._id === product._id)?.quantity ||
           1),
     0
@@ -81,7 +82,7 @@ export default function CartList() {
             >
               <div className="flex items-center gap-5 w-[50%]">
                 <Image
-                  src={product.media[0]}
+                  src={product.media ? product.media[0] : ''}
                   alt="Product"
                   width={200}
                   height={0}
@@ -116,7 +117,7 @@ export default function CartList() {
                   <p>
                     Rs.{" "}
                     {(
-                      product.selling_price *
+                      (product.selling_price || 0) *
                       (cartItems.find((item) => item.item._id === product._id)
                         ?.quantity || 1)
                     ).toFixed(2)}

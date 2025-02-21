@@ -38,7 +38,10 @@ const ProductSchema = Yup.object().shape({
     .min(10, "Description too short!")
     .required("Description is required"),
   category: Yup.string().required("Category is required"),
-  price: Yup.number()
+  original_price: Yup.number()
+    .min(0, "Price must be greater than 0")
+    .required("Price is required"),
+  selling_price: Yup.number()
     .min(0, "Price must be greater than 0")
     .required("Price is required"),
   quantity: Yup.number()
@@ -170,7 +173,8 @@ const AddProductPage = () => {
           name: "",
           description: "",
           category: "",
-          price: "",
+          original_price: "",
+          selling_price: "",
           quantity: "",
           location: "",
           weight: "",
@@ -190,18 +194,20 @@ const AddProductPage = () => {
         }) => (
           <Form className="space-y-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold">Add New Product</h1>
+              <h1 className="text-2xl font-bold text-blue-950">
+                Add New Product
+              </h1>
               <div className="flex items-center space-x-3">
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
                 <Button
                   type="submit"
                   disabled={saving || isSubmitting}
-                  className="min-w-24"
+                  className="min-w-24 mybutton !mt-0"
                 >
                   {saving ? (
-                    <span className="flex items-center">Saving...</span>
+                    <>
+                      <span className="animate-spin mr-2">◌</span>
+                      Updating...
+                    </>
                   ) : saveSuccess ? (
                     <span className="flex items-center gap-1">
                       <CheckCircle className="h-4 w-4" />
@@ -230,7 +236,7 @@ const AddProductPage = () => {
               <div className="lg:col-span-2 space-y-4 text-left">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Basic Information</CardTitle>
+                    <CardTitle className="">Basic Information</CardTitle>
                     <CardDescription>
                       Enter the core details about your product
                     </CardDescription>
@@ -259,7 +265,7 @@ const AddProductPage = () => {
                         id="description"
                         name="description"
                         placeholder="Describe your product in detail..."
-                        className="min-h-32"
+                        className="min-h-32 resize-none"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.description}
@@ -302,26 +308,50 @@ const AddProductPage = () => {
                           </div>
                         )}
                       </div>
+                      <div></div>
                       <div className="space-y-2">
-                        <Label htmlFor="price">Price *</Label>
+                        <Label htmlFor="original_price">Original Price *</Label>
                         <div className="relative">
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-5 text-gray-500 mr-2">
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 mr-2">
                             Rs.
                           </span>
                           <Input
-                            id="price"
-                            name="price"
-                            className="pl-9 ml-2"
+                            id="original_price"
+                            name="original_price"
+                            className="pl-9"
                             placeholder="0.00"
                             type="number"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.price}
+                            value={values.original_price}
                           />
                         </div>
-                        {errors.price && touched.price && (
+                        {errors.original_price && touched.original_price && (
                           <div className="text-red-500 text-sm">
-                            {errors.price}
+                            {errors.original_price}
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="selling_price">Selling Price *</Label>
+                        <div className="relative">
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 mr-2">
+                            Rs.
+                          </span>
+                          <Input
+                            id="selling_price"
+                            name="selling_price"
+                            className="pl-9"
+                            placeholder="0.00"
+                            type="number"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.selling_price}
+                          />
+                        </div>
+                        {errors.selling_price && touched.selling_price && (
+                          <div className="text-red-500 text-sm">
+                            {errors.selling_price}
                           </div>
                         )}
                       </div>

@@ -30,7 +30,7 @@ type OrderType = {
   products_details: OrderProductDetails[];
   user_details: OrderUserDetails;
   total_amount: number;
-  seller_name: string;
+  seller_id: string;
   seller_location: string;
   order_status: string;
   _id: string;
@@ -74,4 +74,5 @@ type OrderProductDetails = {
 type OrderUserDetails = {
   _id: string;
   user_name: string;
+  user_email: string;
 };

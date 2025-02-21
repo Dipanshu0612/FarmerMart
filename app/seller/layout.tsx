@@ -5,6 +5,8 @@ import { Poppins } from "next/font/google";
 import Providers from "@/components/ProgressBar";
 import SellerSidebar from "@/components/SellerSidebar";
 import { Metadata } from "next";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -17,9 +19,13 @@ export const metadata: Metadata = {
     "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const user = await currentUser();
+    if (user?.unsafeMetadata.role !== "seller") {
+      redirect("/");
+    }
   return (
     <html lang="en">
       <head>

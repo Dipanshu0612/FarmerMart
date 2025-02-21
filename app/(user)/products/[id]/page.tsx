@@ -4,7 +4,7 @@ import { Rating } from "@mui/material";
 // import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { getProductByID, getReviews } from "@/lib/actions/actions";
+import { getProductByID, getReviews, getSellerName } from "@/lib/actions/actions";
 import Gallery from "@/components/ProductGallery";
 import AddToWishListButton from "@/components/AddToWishListButton";
 import Head from "next/head";
@@ -21,6 +21,8 @@ export default async function Product({
   const { id } = await params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
+  const seller_name = newData.sold_by ? await getSellerName(newData.sold_by) : "Unknown Seller";
+  newData.sold_by = seller_name;
   const reviews = await getReviews(id);
   return (
     <>
@@ -30,7 +32,7 @@ export default async function Product({
       </Head>
 
       <div className="flex items-center justify-center space-y-10 flex-1">
-        <Gallery productImages={newData.media} />
+        <Gallery productImages={newData.media || []} />
 
         <div className="flex flex-col items-center justify-center flex-1 text-left w-[50%] p-10 space-y-20 tracking-wider">
           <div className="flex flex-col items-start justify-center space-y-5 w-full">
@@ -39,7 +41,7 @@ export default async function Product({
             </h1>
             <p className="mt-5 text-lg">{newData.description}</p>
             <div className="flex items-center gap-3">
-              {newData.rating.toFixed(1)}
+              {newData.rating ? newData.rating.toFixed(1) : "N/A"}
               <Rating
                 name="read-only"
                 value={newData.rating}
@@ -50,7 +52,7 @@ export default async function Product({
               <span className="text-gray-500">{reviews.length} Reviews</span>
             </div>
             <p className="mt-5 text-lg">Weight: {newData.weight}kg</p>
-            <p className="mt-5 text-lg">Sold By: {newData.sold_by}</p>
+            <p className="mt-5 text-lg">Sold By: {seller_name}</p>
             <p className="mt-5 text-lg">Location: {newData.location}</p>
             <p className="mt-5 text-lg">
               Availability:{" "}

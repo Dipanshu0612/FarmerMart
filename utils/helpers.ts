@@ -29,6 +29,7 @@ export const serializeProducts = (products: ProductType[]) => {
 
 export const serializeOrders = (orders: OrderType[]) => {
   return orders.map((order) => {
+    if (!order) return;
     return {
       ...order,
       _id: order._id.toString(),

@@ -13,7 +13,7 @@ const ordersSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  seller_name: {
+  seller_id: {
     type: String,
     required: true,
   },
