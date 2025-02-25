@@ -234,7 +234,13 @@ const SellerOrdersPage = ({ orders }: { orders: OrderType[] }) => {
                             <div className="flex justify-center space-x-2">
                               <Dialog>
                                 <DialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() =>
+                                      setOrderStatus(order.order_status)
+                                    }
+                                  >
                                     <Eye className="h-4 w-4" />
                                   </Button>
                                 </DialogTrigger>
@@ -323,7 +329,7 @@ const SellerOrdersPage = ({ orders }: { orders: OrderType[] }) => {
                                   </div>
                                   <div className="flex justify-between">
                                     <Select
-                                      value={order.order_status}
+                                      value={orderStatus}
                                       onValueChange={(value) => {
                                         setOrderStatus(value);
                                       }}
