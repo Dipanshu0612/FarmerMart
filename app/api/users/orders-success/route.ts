@@ -1,7 +1,7 @@
 import Order from "@/lib/models/ordersModel";
 import User from "@/lib/models/userModel";
 import { connectToDB } from "@/lib/mongoDB";
-import { auth, currentUser} from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -20,8 +20,8 @@ export const POST = async (req: NextRequest) => {
     // console.log(orderData);
 
     const itemsBySeller: { [key: string]: OrderItems[] } = {};
-    
-    orderData.forEach((item:OrderItems) => {
+
+    orderData.forEach((item: OrderItems) => {
       const sellerID = item.sold_by;
       if (!itemsBySeller[sellerID]) {
         itemsBySeller[sellerID] = [];
@@ -46,9 +46,13 @@ export const POST = async (req: NextRequest) => {
             quantity: item.quantity,
             media: item.media,
           })),
-          user_details: { userId, user_name:clerkUser?.firstName + " " + clerkUser?.lastName, user_email:clerkUser?.emailAddresses[0].emailAddress },
+          user_details: {
+            userId,
+            user_name: clerkUser?.firstName + " " + clerkUser?.lastName,
+            user_email: clerkUser?.emailAddresses[0].emailAddress,
+          },
           total_amount: totalAmount,
-          seller_name: sellerID,
+          seller_id: sellerID,
           seller_location: sellerLocation,
           ordered_at: orderedAt,
         };
@@ -74,11 +78,14 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(
       {
         message: "Orders added successfully",
-        orders:{createdOrders, updatedUser}
+        orders: { createdOrders, updatedUser },
       },
       { status: 200 }
     );
   } catch (err) {
-    return NextResponse.json({ message: "Internal Server Error", error: err }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal Server Error", error: err },
+      { status: 500 }
+    );
   }
 };
