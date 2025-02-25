@@ -12,7 +12,6 @@ export const POST = async (req: NextRequest) => {
     }
 
     const { order_id, order_status } = await req.json();
-    console.log(order_id, order_status);
     await Order.findByIdAndUpdate(order_id, { order_status });
     return NextResponse.json(
       { message: "Product updated successfully!", success: true },

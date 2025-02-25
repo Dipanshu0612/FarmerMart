@@ -1,14 +1,16 @@
 import Product from "@/lib/models/productModel";
+import { connectToDB } from "@/lib/mongoDB";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   try {
+    await connectToDB();
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-      }
-      const { product_id, availability } = await req.json();
+    }
+    const { product_id, availability } = await req.json();
     await Product.findByIdAndUpdate(product_id, { availability });
     return NextResponse.json(
       { message: "Product updated successfully!", success: true },

@@ -1,9 +1,11 @@
 import Product from "@/lib/models/productModel";
+import { connectToDB } from "@/lib/mongoDB";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   try {
+    await connectToDB();
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -27,7 +29,10 @@ export const POST = async (req: NextRequest) => {
     };
 
     await Product.create(product);
-    return NextResponse.json({ message: "Product added successfully!" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Product added successfully!" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log({ error });
     return NextResponse.json(
