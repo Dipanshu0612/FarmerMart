@@ -16,7 +16,7 @@ export default function Page() {
         </div>
         <div className="flex items-center justify-center w-[50%]">
           <SignIn
-            signUpUrl="http://localhost:3000/sign-up"
+            signUpUrl={`${process.env.VERCEL_APP_URL}/sign-up`}
           />
         </div>
       </div>
