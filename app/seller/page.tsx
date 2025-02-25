@@ -7,23 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { currentUser} from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { FaRupeeSign } from "react-icons/fa";
 import { getSellerOrders, getSellerProducts } from "@/lib/actions/actions";
 import moment from "moment";
+import SellerDashboardChart from "@/components/SellerDashboardChart";
+import { serializeOrders } from "@/utils/helpers";
 
 const SellerDashboard = async () => {
   const user = await currentUser();
-  const orders = await getSellerOrders(user?.id || "");
+  let orders = await getSellerOrders(user?.id || "");
   const products = await getSellerProducts(user?.id || "");
-  // const revenueData = [
-  //   { name: "Jan", revenue: 4000, orders: 240 },
-  //   { name: "Feb", revenue: 3000, orders: 198 },
-  //   { name: "Mar", revenue: 5000, orders: 305 },
-  //   { name: "Apr", revenue: 4500, orders: 275 },
-  //   { name: "May", revenue: 6000, orders: 410 },
-  //   { name: "Jun", revenue: 5500, orders: 350 },
-  // ];
+  orders = serializeOrders(orders).filter((order) => order !== undefined);
+
   const getStatusColor = (status: string) => {
     const statusMap: { [key: string]: string } = {
       Pending: "bg-yellow-100 text-yellow-800",
@@ -50,7 +46,10 @@ const SellerDashboard = async () => {
             <FaRupeeSign className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">Rs. 28,000</div>
+            <div className="flex text-2xl font-bold">Rs. {orders.filter(order => order.order_status !== "Cancelled").reduce(
+        (sum: number, order: OrderType) => sum + order.total_amount,
+        0
+      )}</div>
           </CardContent>
         </Card>
 
@@ -83,7 +82,7 @@ const SellerDashboard = async () => {
           </CardHeader>
           <CardContent>
             <div className="flex text-2xl font-bold">
-              {orders[0].total_amount}
+              Rs. {orders.filter(order => order.order_status !== "Cancelled").reduce((sum, order) => sum + order.total_amount, 0) / orders.filter(order => order.order_status !== "Cancelled").length}
             </div>
           </CardContent>
         </Card>
@@ -93,16 +92,10 @@ const SellerDashboard = async () => {
         <Card>
           <CardHeader>
             <CardTitle>Revenue & Orders</CardTitle>
-            <CardDescription>Last 6 months performance</CardDescription>
+            <CardDescription>Last 12 months performance</CardDescription>
           </CardHeader>
           <CardContent>
-            {/* <Line
-                  data={revenueData}
-                  width={500}
-                  height={300}
-                  // margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-                >
-                </Line> */}
+            <SellerDashboardChart orders={orders} />
           </CardContent>
         </Card>
 
@@ -120,9 +113,6 @@ const SellerDashboard = async () => {
                 >
                   <div>
                     <p className="font-medium">{product.title}</p>
-                    <p className="text-sm text-gray-500">
-                      {product.quantity} units sold
-                    </p>
                   </div>
                   <p className="font-medium">Rs. {product.selling_price}</p>
                 </div>
@@ -154,7 +144,9 @@ const SellerDashboard = async () => {
                   <tr key={order._id} className="border-b text-left">
                     <td className="py-2">{order._id}</td>
                     <td className="py-2">{order.user_details.user_name}</td>
-                    <td className="py-2">{moment(order.ordered_at).format("Do MMMM, YYYY")}</td>
+                    <td className="py-2">
+                      {moment(order.ordered_at).format("Do MMMM, YYYY")}
+                    </td>
                     <td className="py-2">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
