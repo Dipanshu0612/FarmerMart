@@ -19,7 +19,9 @@ const SellerDashboard = async () => {
   let orders = await getSellerOrders(user?.id || "");
   const products = await getSellerProducts(user?.id || "");
   orders = serializeOrders(orders).filter((order) => order !== undefined);
-
+  const totalCustomers = new Set(
+    orders.map((order) => order.user_details.user_email)
+  ).size; 
   const getStatusColor = (status: string) => {
     const statusMap: { [key: string]: string } = {
       Pending: "bg-yellow-100 text-yellow-800",
@@ -46,10 +48,15 @@ const SellerDashboard = async () => {
             <FaRupeeSign className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">Rs. {orders.filter(order => order.order_status !== "Cancelled").reduce(
-        (sum: number, order: OrderType) => sum + order.total_amount,
-        0
-      )}</div>
+            <div className="flex text-2xl font-bold">
+              Rs.{" "}
+              {orders
+                .filter((order) => order.order_status !== "Cancelled")
+                .reduce(
+                  (sum: number, order: OrderType) => sum + order.total_amount,
+                  0
+                )}
+            </div>
           </CardContent>
         </Card>
 
@@ -69,7 +76,7 @@ const SellerDashboard = async () => {
             <Users className="w-4 h-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="flex text-2xl font-bold">{orders.length}</div>
+            <div className="flex text-2xl font-bold">{totalCustomers}</div>
           </CardContent>
         </Card>
 
@@ -82,7 +89,12 @@ const SellerDashboard = async () => {
           </CardHeader>
           <CardContent>
             <div className="flex text-2xl font-bold">
-              Rs. {orders.filter(order => order.order_status !== "Cancelled").reduce((sum, order) => sum + order.total_amount, 0) / orders.filter(order => order.order_status !== "Cancelled").length}
+              Rs.{" "}
+              {orders
+                .filter((order) => order.order_status !== "Cancelled")
+                .reduce((sum, order) => sum + order.total_amount, 0) /
+                orders.filter((order) => order.order_status !== "Cancelled")
+                  .length}
             </div>
           </CardContent>
         </Card>
