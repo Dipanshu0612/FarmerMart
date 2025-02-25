@@ -12,7 +12,7 @@ export default function Page() {
     <>
       <div className="flex items-center justify-center w-full flex-1">
         <div className="flex items-center justify-center w-[50%]">
-          <Image src="/home.svg" alt="Home" width={700} height={500} />
+          <Image src="/Home.svg" alt="Home" width={700} height={500} />
         </div>
         <div className="flex items-center justify-center w-[50%]">
           <SignIn

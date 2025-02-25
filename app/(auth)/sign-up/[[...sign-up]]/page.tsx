@@ -13,7 +13,7 @@ export default function Page() {
     <>
       <div className="flex items-center justify-center w-full h-full">
         <div className="flex items-center justify-center w-[50%] h-full">
-          <Image src="/home.svg" alt="Home" width={800} height={500} />
+          <Image src="/Home.svg" alt="Home" width={800} height={500} />
         </div>
         <div className="flex items-center justify-center w-[50%] h-full">
           <SignUp signInUrl={`${process.env.VERCEL_APP_URL}/sign-in`}
