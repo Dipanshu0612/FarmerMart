@@ -5,10 +5,13 @@ import { Rating } from "@mui/material";
 // import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { getProductByID, getReviews, getSellerName } from "@/lib/actions/actions";
+import {
+  getProductByID,
+  getReviews,
+  getSellerName,
+} from "@/lib/actions/actions";
 import Gallery from "@/components/ProductGallery";
 import AddToWishListButton from "@/components/AddToWishListButton";
-import Head from "next/head";
 import { serializeProduct } from "@/utils/helpers";
 import moment from "moment";
 
@@ -17,7 +20,7 @@ import moment from "moment";
 //   searchParams?: { [key: string]: string | string[] | undefined };
 // }
 
-export default async function Product({ params }:any) {
+export default async function Product({ params }: any) {
   const { id } = params;
   const data: ProductType = await getProductByID(id);
   const newData = serializeProduct(data);
@@ -28,25 +31,20 @@ export default async function Product({ params }:any) {
   const reviews = await getReviews(id);
   return (
     <>
-      <Head>
-        <title>{newData.title} - FarmerMart</title>
-        <meta name="description" content={newData.description} />
-      </Head>
-
-      <div className="flex items-center justify-center space-y-10 flex-1">
+      <div className="flex flex-col lg:flex-row items-start justify-center gap-6 lg:gap-10 flex-1 px-4 md:px-8 py-4">
         <Gallery productImages={newData.media || []} />
 
-        <div className="flex flex-col items-center justify-center flex-1 text-left w-[50%] p-10 space-y-20 tracking-wider">
+        <div className="flex flex-col items-center justify-center flex-1 text-left w-full lg:w-1/2 p-2 md:p-6 lg:p-10 space-y-10 lg:space-y-20 tracking-wider">
           <div className="flex flex-col items-start justify-center space-y-5 w-full">
-            <h1 className="text-[4rem] font-semibold text-left">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-left break-words">
               {newData.title}
             </h1>
             <p className="mt-5 text-lg">{newData.description}</p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               {newData.rating ? newData.rating.toFixed(1) : "N/A"}
               <Rating
                 name="read-only"
-                value={newData.rating}
+                value={newData.rating || 0}
                 precision={0.5}
                 readOnly
                 className="text-[1.5rem]"
@@ -89,12 +87,14 @@ export default async function Product({ params }:any) {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center space-y-5 flex-1 flex-col my-10">
+      <div className="flex items-center justify-center space-y-5 flex-1 flex-col my-10 px-4">
         <h2 className="text-3xl">Product Reviews</h2>
-        <div className="w-full flex items-center justify-center gap-5 p-10 flex-col">
+        <div className="w-full flex items-center justify-center gap-5 p-2 md:p-6 lg:p-10 flex-col">
           {reviews.length === 0 ? (
             <div className="flex items-center justify-center">
-              <h1 className="text-3xl">No reviews found for this porduct</h1>
+              <h1 className="text-2xl md:text-3xl text-center">
+                No reviews found for this product
+              </h1>
             </div>
           ) : (
             <>
@@ -102,7 +102,7 @@ export default async function Product({ params }:any) {
                 return (
                   <div
                     key={index}
-                    className="flex items-center justify-between border border-black w-[50%] p-5 bg-[#f2fbfc] space-y-2 rounded-3xl"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-black w-full md:w-[80%] lg:w-[60%] p-4 md:p-5 bg-[#f2fbfc] gap-4 rounded-3xl"
                   >
                     <div className="flex flex-col">
                       <h2 className="text-left w-full">{item.user}</h2>

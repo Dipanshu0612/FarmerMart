@@ -29,14 +29,14 @@ export default function CartList() {
         ?.quantity,
     };
   });
-  
+
   const total_price = products_data.reduce(
     (acc, product) =>
       acc +
       (product.selling_price || 0) *
         (cartItems.find((item) => item.item._id === product._id)?.quantity ||
           1),
-    0
+    0,
   );
 
   if (products_data.length === 0) {
@@ -77,16 +77,16 @@ export default function CartList() {
         {products_data.map((product) => {
           return (
             <div
-              className="flex items-center justify-around w-[70%] p-5 bg-white rounded-3xl"
+              className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full max-w-5xl p-4 md:p-5 bg-white rounded-3xl gap-4"
               key={product._id}
             >
-              <div className="flex items-center gap-5 w-[50%]">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 w-full lg:w-1/2">
                 <Image
-                  src={product.media ? product.media[0] : ''}
+                  src={product.media?.[0] || "/Home.svg"}
                   alt="Product"
                   width={200}
-                  height={0}
-                  className="!object-cover !h-[130px] !w-[200px] shadow-lg"
+                  height={130}
+                  className="object-cover h-[130px] w-full sm:w-[200px] shadow-lg rounded-md"
                   loading="lazy"
                 />
                 <Link href={`/products/${product._id}`}>
@@ -109,7 +109,7 @@ export default function CartList() {
                 </Link>
               </div>
 
-              <div className="flex items-center gap-5 w-[50%] justify-around">
+              <div className="flex items-center gap-3 sm:gap-5 w-full lg:w-1/2 justify-between lg:justify-around">
                 <div>
                   <QuantityControl Product={product} />
                 </div>
@@ -136,9 +136,9 @@ export default function CartList() {
           );
         })}
 
-        <div className="flex flex-col items-center justify-around w-[70%] p-5 bg-white rounded-xl space-y-10 !mb-10">
-          <div className="flex items-center justify-between w-full gap-3">
-            <div className="flex flex-col gap-5 w-[50%] p-4 border rounded">
+        <div className="flex flex-col items-center justify-around w-full max-w-5xl p-4 md:p-5 bg-white rounded-xl space-y-6 md:space-y-10 !mb-10">
+          <div className="flex flex-col md:flex-row items-stretch justify-between w-full gap-3">
+            <div className="flex flex-col gap-5 w-full md:w-1/2 p-4 border rounded">
               <div className="flex items-center justify-between">
                 <h2>Discount</h2>
                 <p>
@@ -153,7 +153,7 @@ export default function CartList() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-5 w-[50%] p-4 border rounded">
+            <div className="flex flex-col gap-5 w-full md:w-1/2 p-4 border rounded">
               <div className="flex items-center justify-between">
                 <h2>Subtotal</h2>
                 <p>
@@ -179,10 +179,10 @@ export default function CartList() {
             <p className="self-start">
               If you have a promo code, please enter it here.
             </p>
-            <div className="flex items-center justify-between w-full gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-3">
               <Input type="text" placeholder="Enter promo code..." />
               <Button
-                className="bg-blue-500 hover:bg-blue-600 w-[50%]"
+                className="bg-blue-500 hover:bg-blue-600 w-full sm:w-1/2"
                 onClick={() => alert("Not functional yet!")}
               >
                 Apply Discount
@@ -190,12 +190,12 @@ export default function CartList() {
             </div>
           </div>
 
-          <div className="w-full flex items-center justify-between gap-3">
-            <Button className="w-[50%]">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3">
+            <Button className="w-full sm:w-1/2">
               <Link href="/products">Back to Shop</Link>
             </Button>
             <Button
-              className="bg-blue-500 hover:bg-blue-600 w-[50%]"
+              className="bg-blue-500 hover:bg-blue-600 w-full sm:w-1/2"
               onClick={() => handleCheckout()}
             >
               Proceed to Checkout
@@ -203,7 +203,7 @@ export default function CartList() {
           </div>
           <Button
             className="bg-red-500 hover:bg-red-700 w-full"
-            onClick={() => cart.clearCart}
+            onClick={cart.clearCart}
           >
             Clear Cart
           </Button>

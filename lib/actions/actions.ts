@@ -25,19 +25,26 @@ export const getProductsByQuery = async ({
   if (query) {
     const searchText = Array.isArray(query) ? query[0] : query;
     filters.$or = [
-      { name: { $regex: searchText, $options: "i" } },
+      { title: { $regex: searchText, $options: "i" } },
       { description: { $regex: searchText, $options: "i" } },
       { category: { $regex: searchText, $options: "i" } },
       { location: { $regex: searchText, $options: "i" } },
     ];
   }
 
-  if (minPrice || maxPrice) {
-    filters.selling_price = { $gte: minPrice, $lte: maxPrice };
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    filters.selling_price = {};
+    if (minPrice !== undefined) {
+      filters.selling_price.$gte = minPrice;
+    }
+    if (maxPrice !== undefined) {
+      filters.selling_price.$lte = maxPrice;
+    }
   }
 
   if (category) {
-    filters.category = { $in: category };
+    const categories = Array.isArray(category) ? category : [category];
+    filters.category = { $in: categories };
   }
   const data = await Product.find(filters).lean();
   return data as unknown as ProductType[];
@@ -82,9 +89,9 @@ export const getOrders = async (userID: string) => {
     orderIds.map(async (orderId: string) => {
       const res = await getOrderById(orderId);
       return res;
-    })
+    }),
   );
-  // console.log({ Orders_server: orders });
+
   return orders as unknown as OrderType[];
 };
 
@@ -129,7 +136,6 @@ export const getSellerOrders = async (seller_id: string) => {
   }
   const orders = Order.find({ seller_id }).lean();
 
-  // console.log({ Orders_server: orders });
   return orders as unknown as OrderType[];
 };
 

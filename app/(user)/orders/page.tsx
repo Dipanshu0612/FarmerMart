@@ -19,7 +19,7 @@ export default async function Orders() {
   if (userId === null) {
     return (
       <>
-        <div className="flex items-center justify-center flex-1 text-center flex-col ">
+        <div className="flex items-center justify-center flex-1 text-center flex-col">
           <h1 className="text-[3rem]">Sign in to view your orders!</h1>
           <div className="mt-5 cursor-pointer flex flex-col space-y-4">
             <Link href="/sign-in">
@@ -43,7 +43,7 @@ export default async function Orders() {
   const data: OrderType[] | null = await getOrders(userId as string);
   const newData = data ? serializeOrders(data) : [];
   newData.filter((item): item is OrderType => item !== undefined);
-  console.log({newdata:newData})
+
   const updatedDataPromises = newData.map(async (item) => {
     try {
       const seller_name = await getSellerName(item?.seller_id || "");
@@ -51,21 +51,17 @@ export default async function Orders() {
         return undefined;
       }
 
-      console.log({ Seller_Name: seller_name });
-
       return {
         ...item,
         seller_id: seller_name,
       };
     } catch (error) {
-      console.error(
-        error
-      );
-      return undefined; 
+      console.error(error);
+      return undefined;
     }
   });
   const updatedData = (await Promise.all(updatedDataPromises)).filter(
-    (item): item is OrderType => item !== undefined
+    (item): item is OrderType => item !== undefined,
   );
   return (
     <>

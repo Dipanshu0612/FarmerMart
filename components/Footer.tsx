@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { FaGithubSquare, FaInstagramSquare, FaLinkedin } from "react-icons/fa";
-import Image from 'next/image';
+import Image from "next/image";
 
 const Footer = () => {
   return (
     <>
-      <div className="flex justify-around items-center w-100 p-5 shadow-inner h-[6rem] border">
+      <footer className="mt-auto flex flex-col md:flex-row justify-between md:justify-around items-center w-full p-4 md:p-5 shadow-inner min-h-[6rem] border-t gap-4 header">
         <div className="flex cursor-pointer">
           <Link href="/">
             <Image
@@ -15,11 +15,11 @@ const Footer = () => {
               alt="logo"
               width={300}
               height={1}
-              className="self-start block right-1 "
+              className="self-start block right-1 w-[170px] sm:w-[220px] md:w-[260px] h-auto"
             />
           </Link>
         </div>
-        <div>
+        <div className="text-center md:text-left text-sm md:text-base">
           Made with <span className="">💙</span> by{" "}
           <Link
             href="https://dipanshu-06-portfolio.netlify.app/"
@@ -28,7 +28,7 @@ const Footer = () => {
             Dipanshu
           </Link>
         </div>
-        <div className="flex justify-around items-center text-4xl mt-3 space-x-3 ">
+        <div className="flex justify-around items-center text-3xl md:text-4xl mt-0 md:mt-3 space-x-3">
           <Link
             href="https://www.linkedin.com/in/dipanshu-mishra-696a0622a"
             className="footersocial"
@@ -51,9 +51,9 @@ const Footer = () => {
             <FaInstagramSquare />
           </Link>
         </div>
-      </div>
+      </footer>
     </>
   );
-}
+};
 
-export default Footer
+export default Footer;

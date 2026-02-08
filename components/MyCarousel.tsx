@@ -18,20 +18,21 @@ export function MyCarousel() {
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-[50rem] bg-transparent"
+      className="w-full max-w-[50rem] bg-transparent mx-auto"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
         {CarouselItems.map((item, index) => (
           <CarouselItem key={index}>
-            <div className="p-1 relative" style={{ height: "45rem" }}>
-              <Card className="bg-transparent">
-                <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+            <div className="p-1 relative w-full h-[12rem] sm:h-[18rem] md:h-[24rem] lg:h-[32rem]">
+              <Card className="bg-transparent h-full w-full">
+                <CardContent className="flex items-center justify-center p-0 relative h-full w-full overflow-hidden">
                   <Image
                     src={item}
                     alt="Carousel"
-                    layout="fill"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 50rem"
                     loading="lazy"
                     className="object-cover"
                   />
@@ -41,8 +42,8 @@ export function MyCarousel() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="left-2 sm:-left-12" />
+      <CarouselNext className="right-2 sm:-right-12" />
     </Carousel>
   );
 }

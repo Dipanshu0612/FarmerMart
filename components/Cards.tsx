@@ -51,13 +51,13 @@ export default function Cards({
       {products.map((product: ProductType) => (
         <Card
           key={product._id}
-          className="w-[20rem] !rounded-3xl cursor-pointer cardhover shadow-none !bg-white"
+          className="w-full max-w-[20rem] !rounded-3xl cursor-pointer cardhover shadow-none !bg-white"
         >
           <CardMedia
             component="img"
             alt={product.title}
             height="200px"
-            image={product.media ? product.media[0] : ""}
+            image={product.media?.[0] || "/Home.svg"}
             className="!h-[210px]"
             loading="lazy"
           />
@@ -169,7 +169,7 @@ export function AddToCartButton({
       <SignedIn>
         <Button
           className={`cardbutton mb-2 mx-2 bg-transparent text-black ${GivenWidth} ${
-            Disable ? "cursor-not-allowed" : "curson-pointer"
+            Disable ? "cursor-not-allowed" : "cursor-pointer"
           } `}
           disabled={Disable}
           onClick={addToCart}
@@ -215,7 +215,7 @@ export function QuantityControl({
       <Button
         onClick={decreaseQuantity}
         className={`h-[1.2rem] bg-transparent text-black cardbutton ${
-          Disable ? "cursor-not-allowed" : "curson-pointer"
+          Disable ? "cursor-not-allowed" : "cursor-pointer"
         }`}
         disabled={Disable}
       >
@@ -225,7 +225,7 @@ export function QuantityControl({
       <Button
         onClick={increaseQuantity}
         className={`h-[1.2rem] bg-transparent text-black cardbutton ${
-          Disable ? "cursor-not-allowed" : "curson-pointer"
+          Disable ? "cursor-not-allowed" : "cursor-pointer"
         }`}
         disabled={Disable}
       >

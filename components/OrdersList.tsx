@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import moment from 'moment';
+import moment from "moment";
 import {
   Dialog,
   DialogContent,
@@ -24,23 +24,22 @@ interface ReviewModalProps {
   productIndex: number;
 }
 
-
 export default function OrderList({ orders }: { orders: OrderType[] }) {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
+    null,
   );
-    const getStatusColor = (status: string) => {
-      const statusMap: { [key: string]: string } = {
-        Pending: "bg-yellow-100 text-yellow-800",
-        Processing: "bg-blue-100 text-blue-800",
-        Shipped: "bg-indigo-100 text-indigo-800",
-        Delivered: "bg-green-100 text-green-800",
-        Cancelled: "bg-red-100 text-red-800",
-        Refunded: "bg-gray-100 text-gray-800",
-      };
-      return statusMap[status] || "bg-gray-100 text-gray-800";
+  const getStatusColor = (status: string) => {
+    const statusMap: { [key: string]: string } = {
+      Pending: "bg-yellow-100 text-yellow-800",
+      Processing: "bg-blue-100 text-blue-800",
+      Shipped: "bg-indigo-100 text-indigo-800",
+      Delivered: "bg-green-100 text-green-800",
+      Cancelled: "bg-red-100 text-red-800",
+      Refunded: "bg-gray-100 text-gray-800",
     };
+    return statusMap[status] || "bg-gray-100 text-gray-800";
+  };
 
   if (orders.length === 0) {
     return (
@@ -52,7 +51,6 @@ export default function OrderList({ orders }: { orders: OrderType[] }) {
       </div>
     );
   }
-  console.log({orders})
 
   return (
     <>
@@ -93,7 +91,7 @@ export default function OrderList({ orders }: { orders: OrderType[] }) {
                 Status:{" "}
                 <span
                   className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
-                    order.order_status
+                    order.order_status,
                   )}`}
                 >
                   {order.order_status}
@@ -117,12 +115,11 @@ export default function OrderList({ orders }: { orders: OrderType[] }) {
               />
             </div>
           </div>
-        ))
+        )),
       )}
     </>
   );
 }
-
 
 export function ReviewModal({
   open,
@@ -147,7 +144,7 @@ export function ReviewModal({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ title, review, rating, ordered_at }),
-        }
+        },
       );
       if (!res.ok) {
         throw new Error("Error submitting review!");

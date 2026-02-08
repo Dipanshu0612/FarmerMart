@@ -10,20 +10,19 @@ export const metadata: Metadata = {
     "An E-Commerce NextJs project where users can browse and shop products from local farmers.",
 };
 
-
 export default function About() {
   return (
     <>
-      <div className="flex items-center justify-center space-y-10 flex-1">
-        <div className="flex items-center justify-center flex-1 text-center flex-col w-[50%] mt-5">
+      <div className="flex items-center justify-center space-y-10 flex-1 flex-wrap">
+        <div className="flex items-center justify-center text-center flex-col w-full lg:w-[50%] mt-5 px-4">
           <MyCarousel />
         </div>
-        <div className="flex flex-col items-center justify-center flex-1 text-left w-[50%] p-5 space-y-20 tracking-wider">
+        <div className="flex flex-col items-center justify-center flex-1 text-left w-full lg:w-[50%] p-5 space-y-20 tracking-wider">
           <div>
-            <h1 className="text-[4rem] font-semibold text-left">
+            <h1 className="text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem] font-semibold text-left">
               About FarmerMart!
             </h1>
-            <p className="mt-5 text-lg">
+            <p className="mt-5 text-base sm:text-lg">
               Welcome to FarmerMart, your trusted online marketplace dedicated
               to connecting farmers with consumers. We are committed to
               providing fresh, high-quality produce directly from the farm to
@@ -34,8 +33,10 @@ export default function About() {
           </div>
 
           <div className="mt-8 mx-auto">
-            <h2 className="text-[3.5rem] font-semibold">Our Mission</h2>
-            <p className="mt-4">
+            <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] font-semibold">
+              Our Mission
+            </h2>
+            <p className="mt-4 text-base sm:text-lg">
               At FarmerMart, we believe in the power of community and
               sustainability. Our platform is designed to bridge the gap between
               local farmers and consumers, ensuring fair prices and better

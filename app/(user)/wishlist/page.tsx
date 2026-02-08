@@ -2,7 +2,11 @@ import { SignedIn } from "@clerk/nextjs";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import { CartItemSkeleton } from "../cart/page";
-import { getProductByID, getSellerName, getWishlist } from "@/lib/actions/actions";
+import {
+  getProductByID,
+  getSellerName,
+  getWishlist,
+} from "@/lib/actions/actions";
 import { auth } from "@clerk/nextjs/server";
 import WishlistCard from "@/components/WishlistCard";
 import { serializeProducts } from "@/utils/helpers";
@@ -31,13 +35,13 @@ export default async function Wishlist() {
     );
   const wishlist: string[] = await getWishlist(userId);
   const product_data = await Promise.all(
-    wishlist.map(async (item) => await getProductByID(item))
+    wishlist.map(async (item) => await getProductByID(item)),
   );
   const newData = serializeProducts(product_data);
   const updatedDataPromises = newData.map(async (item) => {
     if (item.sold_by) {
       const seller_name = await getSellerName(item.sold_by);
-      console.log({ seller_name });
+
       return {
         ...item,
         sold_by: seller_name,
